@@ -1,5 +1,6 @@
 <config>
     <manualtests>
+        <title>Example Manual Test</title>
         <tester>Aaron Klump</tester>
         <basename>manual-tests.pdf</basename>
         <testsuite name="Default">

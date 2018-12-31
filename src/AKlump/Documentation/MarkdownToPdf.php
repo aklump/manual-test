@@ -18,6 +18,13 @@ use Twig_Loader_Filesystem;
 abstract class MarkdownToPdf implements MarkdownToPdfInterface {
 
   /**
+   * Holds all the added callables (filters).
+   *
+   * @var array
+   */
+  protected $filters = [];
+
+  /**
    * An array of absolute dirs that should be searched for .md files.
    *
    * These values will be passed through glob().
@@ -104,29 +111,43 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
    * @throws \Twig_Error_Syntax
    */
   public function markdownToHtml($path_to_markdown_file) {
-    $contents = file_get_contents($path_to_markdown_file);
+    $this->eventPath = $path_to_markdown_file;
+    $contents = $this->fireEvent('loaded', file_get_contents($path_to_markdown_file));
     $contents = "---\n" . preg_replace("/^\-\-\-\n/s", '', $contents);
 
     // Get the frontmatter.
-    $data = ['markdown_file' => $path_to_markdown_file];
-    $data['meta'] = $this->getFrontMatterFromMarkdown(file_get_contents($path_to_markdown_file));
+    $meta = $this->getFrontMatterFromMarkdown(file_get_contents($path_to_markdown_file));
     $object = YamlFrontMatter::parse($contents);
 
     // Get the markdown.
-    $data['markdown'] = $object->body();
-    if (method_exists($this, 'alterMarkdown')) {
-      $this->alterMarkdown($data);
-    }
+    $markdown = $this->fireEvent('markdown', $object->body());
     $parsedown = new Parsedown();
-    $data['html'] = $parsedown->text($data['markdown']);
-    if (method_exists($this, 'alterHtml')) {
-      $this->alterHtml($data);
-    }
+    $html = $this->fireEvent('html', $parsedown->text($markdown));
     $twig = $this->getTwig();
-    $template = $twig->createTemplate($data['html']);
-    $data['html'] = $template->render([]);
+    $template = $twig->createTemplate($html);
+    $html = $template->render([]);
 
-    return $data['meta'] + ['html' => $data['html']];
+    return $meta + ['html' => $html];
+  }
+
+  /**
+   * Fire a mutation event.
+   *
+   * @param string $event
+   *   Something like 'loaded'.
+   * @param mixed $data
+   *   The data to send to the mutator.
+   *
+   * @return mixed
+   *   The data returned from the mutator.
+   */
+  private function fireEvent($event, $data) {
+    $method = "on$event";
+    if (method_exists($this, $method)) {
+      $data = $this->{$method}($data, $this->eventPath);
+    }
+
+    return $data;
   }
 
   /**
@@ -251,7 +272,7 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
         'pageNumber' => '[page]',
         'totalPages' => '[toPage]',
         'project' => [
-          'name' => $this->getProjectName(),
+          'name' => $this->getProjectTitle(),
         ],
       ]);
     }
@@ -301,6 +322,21 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
     }
 
     return $config;
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
+  public function addFilter(callable $filter) {
+    $this->filters[] = $filter;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function removeFilters() {
+    $this->filters = [];
   }
 
 }

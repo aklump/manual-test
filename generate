@@ -45,6 +45,7 @@ try {
 
   $manual_test = new ManualTest(
     $conf['base_url'],
+    $conf['title'],
     $cli->getParam('tester', $conf['tester']),
     $conf['testsuites']
   );
@@ -78,7 +79,9 @@ try {
   if (strtolower(pathinfo($save_to, PATHINFO_EXTENSION)) !== 'pdf') {
     $save_to .= '.pdf';
   }
-  $manual_test->savePdfTo($save_to, TRUE);
+  if (!($manual_test->savePdfTo($save_to, TRUE))) {
+    throw new \RuntimeException("Could not save: \"$save_to\", the file may already exist.");
+  }
 }
 catch (\Exception $exception) {
   echo Color::wrap('red', $exception->getMessage() . PHP_EOL);

@@ -74,4 +74,12 @@ interface MarkdownToPdfInterface {
    */
   public function removeFilters();
 
+  /**
+   * Get the project's title.
+   *
+   * @return string
+   *   The name of the project.  May be used for titles, footers, etc.
+   */
+  public function getProjectTitle();
+
 }

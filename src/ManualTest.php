@@ -15,8 +15,6 @@ class ManualTest extends MarkdownToPdf {
 
   protected $testerName;
 
-  protected $filters = [];
-
   protected $testsuites = [];
 
   /**
@@ -25,8 +23,14 @@ class ManualTest extends MarkdownToPdf {
    * @param string $path_to_config
    *   Filepath to the configuration file.
    */
-  public function __construct($base_url, $name_of_tester, array $testsuites) {
+  public function __construct(
+    $base_url,
+    $project_title,
+    $name_of_tester,
+    array $testsuites
+  ) {
     $this->baseUrl = $base_url;
+    $this->projectTitle = $project_title;
     $this->testerName = $name_of_tester;
 
     // Create a testsuite index.
@@ -37,17 +41,6 @@ class ManualTest extends MarkdownToPdf {
       }
       $this->markdownGlobDirs = array_merge($this->markdownGlobDirs, $paths);
     }
-  }
-
-  public function addFilter(callable $filter) {
-    $this->filters[] = $filter;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function removeFilters() {
-    $this->filters = [];
   }
 
   /**
@@ -138,13 +131,15 @@ class ManualTest extends MarkdownToPdf {
     return array_values($array);
   }
 
-  protected function alterMarkdown(&$data) {
-    $data['markdown'] = preg_replace('/<(\/.+)>/', '<' . $this->baseUrl . '$1>', $data['markdown']);
+  protected function onMarkdown($markdown, $filepath) {
+    $markdown = preg_replace('/<(\/.+)>/', '<' . $this->baseUrl . '$1>', $markdown);
 
-    // Ensure a test data section
-    if (strstr($data['markdown'], '## Test Data') === FALSE) {
-      $data['markdown'] = preg_replace('/##\s*Test Execution/si', "## Test Data\n\n$0", $data['markdown']);
+    // Ensure a test data section.
+    if (strstr($markdown, '## Test Data') === FALSE) {
+      $markdown = preg_replace('/##\s*Test Execution/si', "## Test Data\n\n$0", $markdown);
     }
+
+    return $markdown;
   }
 
   /**
@@ -152,14 +147,20 @@ class ManualTest extends MarkdownToPdf {
    *
    * @param string $html
    *   The HTML as generated directly from a markdown file.
+   * @param string $filepath
+   *   The path to the test case markdown file.
    *
    * @return string
    *   The same or modified HTML.
+   *
+   * @throws \Twig_Error_Loader
+   * @throws \Twig_Error_Runtime
+   * @throws \Twig_Error_Syntax
    */
-  protected function alterHtml(&$data) {
+  protected function onHtml($html, $filepath) {
     // Replace relative links.
-    $images_dir = rtrim(rtrim(dirname($data['markdown_file']), '/') . '/images', '/');
-    $data['html'] = preg_replace_callback('/((?:href|src)=")(.+?)(")/', function ($matches) use ($images_dir) {
+    $images_dir = rtrim(rtrim(dirname($filepath), '/') . '/images', '/');
+    $html = preg_replace_callback('/((?:href|src)=")(.+?)(")/', function ($matches) use ($images_dir) {
       array_shift($matches);
       if (preg_match('/^images/', $matches[1])) {
         $matches[1] = str_replace("images/", "$images_dir/", $matches[1]);
@@ -169,13 +170,13 @@ class ManualTest extends MarkdownToPdf {
       }
 
       return implode($matches);
-    }, $data['html']);
+    }, $html);
 
     // Add some markup classes.
-    $data['html'] = str_replace('<table>', '<table class="pure-table">', $data['html']);
+    $html = str_replace('<table>', '<table class="pure-table">', $html);
 
     // Isolate the Test Results section and add pass/fail checkboxes.
-    $sections = preg_split('/<h2>/', $data['html']);
+    $sections = preg_split('/<h2>/', $html);
     foreach ($sections as &$section) {
       if (preg_match('/^Test Data/i', $section)) {
         preg_match('/<pre><code>(.+?)<\/code><\/pre>/si', $section, $matches);
@@ -211,7 +212,7 @@ class ManualTest extends MarkdownToPdf {
             }
           });
 
-        // Merge steps and results into one row
+        // Merge steps and results into one row.
         $rows = array_map(function ($item) {
           $steps = $results = [];
           foreach ($item as $i) {
@@ -233,7 +234,7 @@ class ManualTest extends MarkdownToPdf {
           $list_index += $step_count;
 
           $results = '<ul class="test-results"><li>' . implode("</li><li>", $results) . "</li></ul>";
-          $results = preg_replace_callback('/<li>(.+?<\/li>)/', function ($matches) use (&$input_index, $data) {
+          $results = preg_replace_callback('/<li>(.+?<\/li>)/', function ($matches) use (&$input_index) {
             $name = ++self::$inputIndex;
 
             return "<li>{% include('pass.twig') with {name:$name} %} " . $matches[1];
@@ -250,19 +251,20 @@ class ManualTest extends MarkdownToPdf {
         $section = preg_replace('/<ol>.+?<\/ol>/si', $table, $section);
       }
     }
-    $data['html'] = implode('<h2>', $sections);
+
+    return implode('<h2>', $sections);
   }
 
   /**
-   * Get the name of the project.
-   *
-   * @return string
-   *   The project name.
+   * {@inheritdoc}
    */
-  public function getProjectName() {
-    return 'https://globalonenessproject.org';
+  public function getProjectTitle() {
+    return $this->projectTitle;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getTemplateDirs() {
     return [
       ROOT . '/templates',
