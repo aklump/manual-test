@@ -1,7 +1,7 @@
 {
     "name": "aklump\/manual-test",
     "type": "library",
-    "description": "A solution for writing and running manual functional tests for websites.",
+    "description": "A solution for writing and running manual functional tests for websites using markdown and pdf.",
     "keywords": [],
     "homepage": "https:\/\/github.com\/aklump\/manual-test",
     "license": "BSD-3-Clause",
