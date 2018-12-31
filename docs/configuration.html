@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Configuration</title>
+  <link href="search/tipuesearch.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body class="page--configuration">
+<header>
+  <div class="pager">
+  <a href="README.html" class="prev README">&laquo;Manual Test</a>
+  <a href="index.html" class="index">Index</a>
+  <a href="pdf-config.html" class="next pdf-config">Pdf Config&raquo;</a>
+</div>
+</header>
+
+  <div class="search__wrapper">
+  <form action="search--results.html">
+    <input type="text" class="search-input" name="q" id="tipue_search_input" autocomplete="off" required>
+  </form>
+</div>
+
+  <h1>Configuration</h1>
+  <div class="breadcrumb"><a href="index.html">Index</a></div>
+
+<section>
+
+<p>This project is designed to piggyback off of <em>PHPUnit</em> and it's <em>phpunit.xml</em> file.  Therefore the configuration is an XML file.  If you will not use with PHPUnit you can use the format as shown in <em>examples/config.xml</em>.</p>
+</section>
+
+<div class="search__results">
+  <div id="tipue_search_content"></div>
+</div>
+
+<footer>
+  <div class="pager">
+  <a href="README.html" class="prev README">&laquo;Manual Test</a>
+  <a href="index.html" class="index">Index</a>
+  <a href="pdf-config.html" class="next pdf-config">Pdf Config&raquo;</a>
+</div>
+  
+  <div id="footer-legaleeze">
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Mon, 31 Dec 2018 09:28:33 -0800</p>
+  </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="search/tipuesearch_content.js"></script>
+  <script src="search/tipuesearch_set.js"></script>
+  <script src="search/tipuesearch.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#tipue_search_input').tipuesearch();
+    });
+  </script>
+<script src="js/core.js"></script>
+</body>
+</html>
+
