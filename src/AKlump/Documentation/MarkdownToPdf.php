@@ -1,6 +1,6 @@
 <?php
 
-namespace AKlump\ManualTest;
+namespace AKlump\Documentation;
 
 use mikehaertl\wkhtmlto\Pdf;
 use Parsedown;
@@ -9,7 +9,7 @@ use Twig_Environment;
 use Twig_Loader_Filesystem;
 
 /**
- * Parent class for classes that wish to convert markdown files to a PDF.
+ * Parent class for solutions that convert markdown files to PDF.
  *
  * This class uses wkhtmltopdf, which must be installed.
  *
@@ -30,22 +30,33 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
    * {@inheritdoc}
    *
    * Child classes must populate $this->markdownGlobDirs before calling this.
+   *
+   * @throws \RuntimeException
+   *   - If $this->markdownGlobDirs is empty.
+   *   - If there are no markdown files in $this->markdownGlobDirs.
    */
   public function getMarkdownFiles() {
-    $test_case_files = [];
-    foreach ($this->markdownGlobDirs as $test_case_dir) {
-      $items = glob($test_case_dir . '/*.md');
-      $test_case_files = array_merge($test_case_files, $items);
+    $markdown_filepaths = [];
+    if (empty($this->markdownGlobDirs)) {
+      throw new \RuntimeException("\$this->markdownGlobDirs cannot be empty.");
+    }
+    foreach ($this->markdownGlobDirs as $glob_dir) {
+      $items = glob($glob_dir . '/*.md');
+      $markdown_filepaths = array_merge($markdown_filepaths, $items);
     }
 
-    return array_unique($test_case_files);
+    $markdown_filepaths = array_unique($markdown_filepaths);
+    if (empty($markdown_filepaths)) {
+      throw new \RuntimeException("There are no source files to convert.");
+    }
+
+    return $markdown_filepaths;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getStylesheets() {
-    // Discover all stylesheets.
     $styles = [];
     foreach ($this->getTemplateDirs() as $template_dir) {
       if (is_file($template_dir . '/style.css')) {
@@ -56,6 +67,12 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
     return $styles;
   }
 
+  /**
+   * Return all directories containing twig templates.
+   *
+   * @return array
+   *   An array of paths to directories to be searched for Twig templates.
+   */
   abstract protected function getTemplateDirs();
 
   /**
@@ -115,8 +132,10 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
   /**
    * Return the processed and normalized frontmatter from a file.
    *
-   * @param string $path_to_markdown
-   *   The path to the markdown file.
+   * @param string $markdown
+   *   The markdown content.
+   * @param bool $normalize
+   *   True and keys will be normalized; false and they are returned raw.
    *
    * @return array|false|mixed
    */
@@ -182,17 +201,22 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
   /**
    * Get the value of a CSS style in the style attribute of a node.
    *
+   * @param string $style_key
+   *   The name of the CSS style.
    * @param \SimpleXMLElement $node
    *   The XML node, e.g $pdf->page, $pdf->page->header.
+   * @param callable $mutator
+   *   Optional callback to process the returned value.
    *
    * @return mixed
+   *   The value of the CSS inline style.
    */
-  private function getStyleValue($key, \SimpleXMLElement $node, callable $mutator = NULL) {
+  private function getInlineCssStyleValue($style_key, \SimpleXMLElement $node, callable $mutator = NULL) {
     $style = (string) $node->attributes()->style;
     $style = explode(';', (string) $style);
-    $value = array_reduce($style, function ($carry, $value) use ($key) {
+    $value = array_reduce($style, function ($carry, $value) use ($style_key) {
       list($k, $v) = explode(':', $value);
-      if (trim($k) === trim($key)) {
+      if (trim($k) === trim($style_key)) {
         return $carry . trim($v);
       }
 
@@ -218,7 +242,7 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
    * @link https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
    */
   protected function getWkHtmlToPdfConfig() {
-    $config = [
+    $default_config = [
       0 => 'enable-forms',
     ];
 
@@ -238,17 +262,18 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
     if (!empty($xml)) {
       $data = simplexml_load_string($xml);
 
-      $header_spacing = $this->getStyleValue('margin-bottom', $data->header, function ($value) {
+      $header_spacing = $this->getInlineCssStyleValue('margin-bottom', $data->header, function ($value) {
         return $this->inchesToMm($value);
       });
+
       // For some reason the spacing doesn't seem to work right, so we try to normalize here.
       $header_spacing *= .66;
-
-      $page_top = $this->getStyleValue('margin-top', $data, function ($value) {
+      $page_top = $this->getInlineCssStyleValue('margin-top', $data, function ($value) {
         return $this->inchesToMm($value);
       });
       $page_top += $header_spacing;
 
+      // Return the first value of a CSV string.
       $first_csv = function ($value) {
         $value = explode(',', $value);
 
@@ -256,22 +281,23 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
       };
 
       $config = [
-          'margin-top' => $page_top,
-          'margin-bottom' => $this->getStyleValue('margin-bottom', $data, function ($value) {
-            return $this->inchesToMm($value);
-          }),
-          'header-spacing' => $header_spacing,
-          'header-left' => (string) $data->header->left,
-          'header-center' => (string) $data->header->center,
-          'header-right' => (string) $data->header->right,
-          'footer-left' => (string) $data->footer->left,
-          'footer-center' => (string) $data->footer->center,
-          'footer-right' => (string) $data->footer->right,
-          'header-font-size' => $this->getStyleValue('font-size', $data->header, 'intval'),
-          'header-font-name' => $this->getStyleValue('font-family', $data->header, $first_csv),
-          'footer-font-size' => $this->getStyleValue('font-size', $data->footer, 'intval'),
-          'footer-font-name' => $this->getStyleValue('font-family', $data->footer, $first_csv),
-        ] + $config;
+        'footer-center' => (string) $data->footer->center,
+        'footer-font-name' => $this->getInlineCssStyleValue('font-family', $data->footer, $first_csv),
+        'footer-font-size' => $this->getInlineCssStyleValue('font-size', $data->footer, 'intval'),
+        'footer-left' => (string) $data->footer->left,
+        'footer-right' => (string) $data->footer->right,
+        'header-center' => (string) $data->header->center,
+        'header-font-name' => $this->getInlineCssStyleValue('font-family', $data->header, $first_csv),
+        'header-font-size' => $this->getInlineCssStyleValue('font-size', $data->header, 'intval'),
+        'header-left' => (string) $data->header->left,
+        'header-right' => (string) $data->header->right,
+        'header-spacing' => $header_spacing,
+        'margin-bottom' => $this->getInlineCssStyleValue('margin-bottom', $data, function ($value) {
+          return $this->inchesToMm($value);
+        }),
+        'margin-top' => $page_top,
+      ];
+      $config += $default_config;
     }
 
     return $config;

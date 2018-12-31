@@ -2,6 +2,7 @@
 
 namespace AKlump\ManualTest;
 
+use AKlump\Documentation\MarkdownToPdf;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
 use Parsedown;

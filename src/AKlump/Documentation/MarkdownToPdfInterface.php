@@ -1,6 +1,6 @@
 <?php
 
-namespace AKlump\ManualTest;
+namespace AKlump\Documentation;
 
 /**
  * Interface for converting markdown files to a pdf document.
@@ -17,7 +17,7 @@ interface MarkdownToPdfInterface {
    * @return array
    *   An array of absolute paths to markdown files.
    *
-   * ::addFilter
+   * @see ::addFilter
    */
   public function getMarkdownFiles();
 
