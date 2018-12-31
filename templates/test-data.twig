@@ -1,0 +1,16 @@
+<h2>Test Data</h2>
+{% if data %}
+  <table class="pure-table pure-table-bordered">
+    <tbody>
+    {% for name, value in data %}
+      <tr>
+        <td><em>{{ name }}</em></td>
+        <td>{{ value }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>Anything you want.</p>
+{% endif %}
+

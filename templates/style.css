@@ -1,0 +1,64 @@
+html {
+    font-size: 17px;
+    font-family: Thasadith, sans-serif;
+    line-height: 1.5;
+}
+
+img {
+    max-width: 75%;
+    display: block;
+    margin: 50px auto;
+}
+
+.fail {
+    color: red;
+}
+
+.pass {
+    color: green;
+}
+
+td {
+    vertical-align: top;
+    width: 50%;
+}
+
+td img {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+h1 {
+    page-break-before: always;
+}
+
+h1 span.results {
+    float: right;
+}
+
+h2 {
+    margin-bottom: 0.25em;
+}
+
+p {
+    margin-top: 0;
+}
+
+ul, ol {
+    margin: 0;
+}
+
+.test_checkmark {
+    opacity: 0;
+    width: 1em;
+    height: 1em;
+}
+
+.test__execution ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.test__execution ol {
+    padding-left: 1.25em;
+}

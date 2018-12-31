@@ -1,0 +1,33 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Test Case",
+    "description": "Format for a test case markdown file.",
+    "type": "object",
+    "properties": {
+        "Test Case ID": {
+            "type": "string"
+        },
+        "Author": {
+            "type": "string"
+        },
+        "Created": {
+            "type": "string"
+        },
+        "Test Scenario": {
+            "type": "string"
+        },
+        "Test Data": {
+            "type": "object"
+        },
+        "Test Execution": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "Test Case ID",
+        "Author",
+        "Created",
+        "Test Scenario",
+        "Test Execution"
+    ]
+}

@@ -1,0 +1,89 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * @file
+ *
+ * This is the CLI controller for manual_test
+ *
+ * Options:
+ * --tester=<name of tester>
+ * --save-to=<path to output pdf; defaults to "./suite.pdf">
+ * --filter=<id or id substr>  Only include those tests whose id matches of
+ *   contains.
+ * --testsuite=<testsuite> Only include those tests in a given testsuite.
+ * --configuration=<path to phpunit.xml or config.xml>
+ */
+
+use AKlump\LoftLib\Bash\Color;
+use AKlump\ManualTest\ManualTest;
+
+define('ROOT', dirname(__FILE__));
+
+try {
+  require ROOT . '/includes/bootstrap.inc';
+
+  $conf = [];
+  $conf['base_url'] = getenv('CLIENT_TEST_BASE_URL');
+
+  $path_to_config = $cli->getParam('configuration', ROOT . '/examples/config.xml');
+  $config = simplexml_load_file($path_to_config);
+  foreach ($config->manualtests->children() as $name => $node) {
+    switch ($name) {
+      case 'testsuite':
+        foreach ($node as $suite) {
+          $suite_name = strval($node->attributes()->name);
+          $conf['testsuites'][$suite_name][] = strval($suite);
+        }
+        break;
+
+      default:
+        $conf[$name] = strval($node);
+        break;
+    }
+  }
+
+  $manual_test = new ManualTest(
+    $conf['base_url'],
+    $cli->getParam('tester', $conf['tester']),
+    $conf['testsuites']
+  );
+
+  // --filter is a case-insensitive contains filter.
+  if (($filter = $cli->getParam('filter'))) {
+    $manual_test->addFilter(function ($files) use ($filter) {
+      return array_map(function ($item) {
+        return $item['path'];
+      }, array_filter($files, function ($item) use ($filter) {
+        return strpos(strtolower($item['meta']['id']), strtolower($filter)) !== FALSE;
+      }));
+    });
+  }
+
+  // --testsuite is a case-insensitive match filter.
+  if (($filter = $cli->getParam('testsuite'))) {
+    $manual_test->addFilter(function ($files) use ($filter) {
+      return array_map(function ($item) {
+        return $item['path'];
+      }, array_filter($files, function ($item) use ($filter) {
+        return strcasecmp($item['meta']['test suite'], $filter) === 0;
+      }));
+    });
+  }
+  //
+  //$html = $manual_test->renderHtml();
+  //die($html);
+
+  $save_to = $cli->getParam('save-to', $conf['basename']);
+  if (strtolower(pathinfo($save_to, PATHINFO_EXTENSION)) !== 'pdf') {
+    $save_to .= '.pdf';
+  }
+  $manual_test->savePdfTo($save_to, TRUE);
+}
+catch (\Exception $exception) {
+  echo Color::wrap('red', $exception->getMessage() . PHP_EOL);
+  exit(1);
+}
+
+echo Color::wrap('green', 'Manual test suite saved to: ' . $save_to) . PHP_EOL;
+exit(0);

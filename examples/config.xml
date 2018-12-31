@@ -1,0 +1,9 @@
+<config>
+    <manualtests>
+        <tester>Aaron Klump</tester>
+        <basename>manual-tests.pdf</basename>
+        <testsuite name="Default">
+            <directory>./examples</directory>
+        </testsuite>
+    </manualtests>
+</config>

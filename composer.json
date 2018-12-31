@@ -1,0 +1,36 @@
+{
+    "name": "aklump\/manual-test",
+    "type": "library",
+    "description": "A solution for writing and running manual functional tests for websites.",
+    "keywords": [],
+    "homepage": "https:\/\/github.com\/aklump\/manual-test",
+    "license": "BSD-3-Clause",
+    "autoload": {
+        "psr-4": {
+            "AKlump\\ManualTest\\": "src\/"
+        }
+    },
+    "require": {
+        "aklump\/loft-lib": "^1.0",
+        "erusev\/parsedown": "^1.7",
+        "justinrainbow\/json-schema": "^5.2",
+        "mikehaertl\/phpwkhtmltopdf": "^2.3",
+        "spatie\/yaml-front-matter": "^2.0",
+        "symfony\/css-selector": "^4.2",
+        "symfony\/dom-crawler": "^4.2",
+        "twig\/twig": "^2.6",
+        "symfony\/yaml": "^4.2"
+    },
+    "version": "1.0",
+    "bin": [
+        ".\/generate"
+    ],
+    "authors": [
+        {
+            "name": "Aaron Klump",
+            "email": "sourcecode@intheloftstudios.com",
+            "homepage": "",
+            "role": ""
+        }
+    ]
+}
