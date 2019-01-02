@@ -39,6 +39,20 @@ class ManualTest extends MarkdownToPdf {
   protected $testsuites = [];
 
   /**
+   * Directory where validation schemas can be found.
+   *
+   * @var string
+   */
+  protected $schemaDir;
+
+  /**
+   * Directory where validation templates can be found.
+   *
+   * @var string
+   */
+  protected $templateDir;
+
+  /**
    * ManualTestBase constructor.
    *
    * @param string $base_url
@@ -54,11 +68,15 @@ class ManualTest extends MarkdownToPdf {
    *   test cases.
    */
   public function __construct(
+    $template_dir,
+    $schema_dir,
     $base_url,
     $project_title,
     $name_of_tester,
     array $testsuites
   ) {
+    $this->templateDir = $template_dir;
+    $this->schemaDir = $schema_dir;
     $this->baseUrl = $base_url;
     $this->projectTitle = $project_title;
     $this->testerName = $name_of_tester;
@@ -132,9 +150,7 @@ class ManualTest extends MarkdownToPdf {
    * {@inheritdoc}
    */
   public function getTemplateDirs() {
-    return [
-      ROOT . '/templates',
-    ];
+    return [$this->templateDir];
   }
 
   /**
@@ -341,7 +357,7 @@ class ManualTest extends MarkdownToPdf {
     $subject = json_decode(json_encode($frontmatter));
     try {
       $validator = new Validator();
-      $validator->validate($subject, (object) ['$ref' => 'file://' . realpath(ROOT . '/includes/test_case.schema.json')], Constraint::CHECK_MODE_EXCEPTIONS);
+      $validator->validate($subject, (object) ['$ref' => 'file://' . realpath($this->schemaDir . '/test_case.schema.json')], Constraint::CHECK_MODE_EXCEPTIONS);
     }
     catch (\Exception $e) {
       throw new MarkdownSyntaxException($filepath, $e->getMessage(), $e->getCode(), $e);

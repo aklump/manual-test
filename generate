@@ -7,12 +7,11 @@
  * This is the CLI controller for manual_test
  *
  * Options:
- * --tester=<name of tester>
- * --save-to=<path to output pdf; defaults to "./suite.pdf">
- * --filter=<id or id substr>  Only include those tests whose id matches of
- *   contains.
- * --testsuite=<testsuite> Only include those tests in a given testsuite.
  * --configuration=<path to phpunit.xml or config.xml>
+ * --tester=<name of tester>
+ * --filter=<id or id substr> Only include those tests whose id contains.
+ * --testsuite=<testsuite> Only include those tests in a given testsuite.
+ * --output=<path to output pdf; defaults to "./suite.pdf">
  */
 
 use AKlump\LoftLib\Bash\Color;
@@ -32,19 +31,17 @@ try {
     throw new \RuntimeException("Bad syntax in configuration file; missing key \"manualtests\".  In " . realpath($path_to_config));
   }
 
+  $config_dir = realpath(dirname($path_to_config));
   foreach ($config->manualtests->children() as $name => $node) {
     switch ($name) {
       case 'testsuite':
         foreach ($node as $suite) {
           $suite_name = strval($node->attributes()->name);
-          $path = $original_path = strval($suite);
+          $path = strval($suite);
           if (substr($suite, 0, 1) !== '/') {
-            $path = realpath(ROOT . '/' . $path);
+            $path = $config_dir . '/' . $path;
           }
-          if (!$path || !($path = realpath($path))) {
-            throw new \RuntimeException("Testsuite does not resolve to a valid path: \"" . $original_path . '".');
-          }
-          $conf['testsuites'][$suite_name][] = $path;
+          $path && $conf['testsuites'][$suite_name][] = $path;
         }
         break;
 
@@ -59,6 +56,8 @@ try {
   }
 
   $manual_test = new ManualTest(
+    ROOT . '/templates/',
+    ROOT . '/includes/',
     $conf['base_url'],
     $conf['title'],
     $cli->getParam('tester', $conf['tester']),
@@ -86,11 +85,8 @@ try {
       }));
     });
   }
-  //
-  //$html = $manual_test->getCompiledHtml();
-  //die($html);
 
-  $save_to = $cli->getParam('save-to', $conf['basename']);
+  $save_to = $cli->getParam('output', $conf['output']);
   if (strtolower(pathinfo($save_to, PATHINFO_EXTENSION)) !== 'pdf') {
     $save_to .= '.pdf';
   }

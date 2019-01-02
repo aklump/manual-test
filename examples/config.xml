@@ -2,9 +2,9 @@
     <manualtests>
         <title>Example Manual Test</title>
         <tester>Aaron Klump</tester>
-        <basename>manual-tests.pdf</basename>
+        <output>manual-tests.pdf</output>
         <testsuite name="Default">
-            <directory>./examples</directory>
+            <directory>.</directory>
         </testsuite>
     </manualtests>
 </config>
