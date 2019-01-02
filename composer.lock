@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa21614a588ff6ce0fe728508deb3ec7",
+    "content-hash": "83a72e529854c2d7f936c84cf99e3472",
     "packages": [
         {
             "name": "aklump/data",
@@ -54,12 +54,17 @@
         },
         {
             "name": "aklump/documentation",
-            "version": "1.0",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aklump/documentation.git",
+                "reference": "a32fa79510214332d8e5f7a04cc222841ffdf79d"
+            },
             "dist": {
-                "type": "path",
-                "url": "lib/documentation",
-                "reference": "3d4d728431b8113b29a50f91c63ffcd995a62e9c",
-                "shasum": null
+                "type": "zip",
+                "url": "https://api.github.com/repos/aklump/documentation/zipball/a32fa79510214332d8e5f7a04cc222841ffdf79d",
+                "reference": "a32fa79510214332d8e5f7a04cc222841ffdf79d",
+                "shasum": ""
             },
             "type": "library",
             "autoload": {
@@ -67,11 +72,7 @@
                     "AKlump\\Documentation\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "AKlump\\Documentation\\": "tests/src"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -81,7 +82,8 @@
                     "email": "sourcecode@intheloftstudios.com"
                 }
             ],
-            "homepage": "https://github.com/aklump/documentation"
+            "homepage": "https://github.com/aklump/documentation",
+            "time": "2019-01-02T03:46:26+00:00"
         },
         {
             "name": "aklump/loft-lib",
