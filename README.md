@@ -10,6 +10,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac blandit ris
 
 ## Quick Start
 
+1. `composer require aklump/manual-test`
+1. `cp ./examples/config.xml ./config.xml`
+1. Modify _config.xml_ as necessary
+1. `./vendor/bin/generate --configuration=manualtest.xml`
+
 ## Requirements
 
 * alpha
