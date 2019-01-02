@@ -17,10 +17,10 @@
         "justinrainbow\/json-schema": "^5.2",
         "mikehaertl\/phpwkhtmltopdf": "^2.3",
         "spatie\/yaml-front-matter": "^2.0",
-        "symfony\/css-selector": "^4.2",
-        "symfony\/dom-crawler": "^4.2",
+        "symfony\/css-selector": "^3.4",
+        "symfony\/dom-crawler": "^3.4",
         "twig\/twig": "^2.6",
-        "symfony\/yaml": "^4.2"
+        "symfony\/yaml": "^3.4"
     },
     "version": "1.0.3",
     "bin": [
