@@ -22,7 +22,7 @@
         "twig\/twig": "^2.6",
         "symfony\/yaml": "^3.4"
     },
-    "version": "1.0.4",
+    "version": "1.0.5",
     "bin": [
         ".\/generate"
     ],
