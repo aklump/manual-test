@@ -8,7 +8,7 @@
     "autoload": {
         "psr-4": {
             "AKlump\\ManualTest\\": "src/",
-            "AKlump\\Documentation\\": "lib/documentation/"
+            "AKlump\\Documentation\\": "lib/documentation/src/"
         }
     },
     "require": {
