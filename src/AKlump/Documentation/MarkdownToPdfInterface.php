@@ -10,45 +10,49 @@ namespace AKlump\Documentation;
 interface MarkdownToPdfInterface {
 
   /**
+   * Get the project's title.
+   *
+   * @return string
+   *   The name of the project.  May be used for titles, footers, etc.
+   */
+  public function getProjectTitle();
+
+  /**
    * Return an array of markdown files to be used in PDF generation.
    *
-   * If a filter has been used, this will be a subset.
+   * - Implementations must apply filters to the result set returned.
+   * - Implementations should validate each file at this point.
    *
    * @return array
    *   An array of absolute paths to markdown files.
    *
    * @see ::addFilter
+   *
+   * @throws \AKlump\Documentation\MarkdownSyntaxException
+   *   When the format of a markdown file is invalid syntax.
    */
   public function getMarkdownFiles();
 
   /**
-   * Get all stylesheet absolute paths.
-   *
-   * @return array
-   *   An array of stylesheet filepaths.
-   */
-  public function getStylesheets();
-
-  /**
-   * Render the HTML document based on the markdown files.
+   * Render the HTML document based on all markdown files.
    *
    * @return string
    *   The rendered HTML document.
    */
-  public function renderHtml();
+  public function getCompiledHtml();
 
   /**
-   * Save the PDF file.
+   * Save the PDF file of all markdown files.
    *
    * @param string $pdf_filepath
-   *   The path to save to.
+   *   The output path of the PDF file to generate.
    * @param bool $overwrite
-   *   Set to true to overwrite an existing file.
+   *   TRUE to replace existing file at $pdf_filepath.
    *
    * @return bool
    *   True if saved successfully; false otherwise.
    */
-  public function savePdfTo($pdf_filepath, $overwrite = FALSE);
+  public function saveCompiledPdfTo($pdf_filepath, $overwrite = FALSE);
 
   /**
    * Reduce the set of markdown files returned by ::getMarkdownFiles.
@@ -73,13 +77,5 @@ interface MarkdownToPdfInterface {
    *   An instance of self for chaining.
    */
   public function removeFilters();
-
-  /**
-   * Get the project's title.
-   *
-   * @return string
-   *   The name of the project.  May be used for titles, footers, etc.
-   */
-  public function getProjectTitle();
 
 }

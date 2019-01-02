@@ -2,6 +2,7 @@
 
 namespace AKlump\ManualTest;
 
+use AKlump\Documentation\MarkdownSyntaxException;
 use AKlump\Documentation\MarkdownToPdf;
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
@@ -9,19 +10,48 @@ use Parsedown;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Generates PDFs from markdown files for manual testing scenarios.
+ */
 class ManualTest extends MarkdownToPdf {
 
-  static $inputIndex = 0;
+  /**
+   * A counter for creating unique input checkboxes.
+   *
+   * @var int
+   */
+  protected static $inputIndex = 0;
 
+  /**
+   * The name of the person responsible for running the tests.
+   *
+   * @var string
+   */
   protected $testerName;
 
+  /**
+   * An array of arrays keyed by testsuite name.
+   *
+   * Teach value is an array of filepaths of testcase files in the suite.
+   *
+   * @var array
+   */
   protected $testsuites = [];
 
   /**
    * ManualTestBase constructor.
    *
-   * @param string $path_to_config
-   *   Filepath to the configuration file.
+   * @param string $base_url
+   *   The base URL to use for resolving relative links, e.g.
+   *   http://www.site.com.
+   * @param string $project_title
+   *   The name of the project.
+   * @param string $name_of_tester
+   *   The name of the person responsible for testing.
+   * @param array $testsuites
+   *   An array keyed by test suite names, each value is an array with one or
+   *   more glob patterns pointing to directories that contain *.md files of
+   *   test cases.
    */
   public function __construct(
     $base_url,
@@ -44,6 +74,13 @@ class ManualTest extends MarkdownToPdf {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function getProjectTitle() {
+    return $this->projectTitle;
+  }
+
+  /**
    * Get an array of filepaths to all configured manual tests.
    *
    * @return array
@@ -54,7 +91,7 @@ class ManualTest extends MarkdownToPdf {
     if ($use_filters) {
       foreach ($this->filters as $filter) {
         $files = array_map(function ($file) {
-          $meta = $this->getFrontMatterFromMarkdown(file_get_contents($file));
+          $meta = $this->getSourceFileMeta($file);
           foreach ($this->testsuites as $name => $paths) {
             if (in_array($file, $paths)) {
               $meta['test suite'] = $name;
@@ -79,46 +116,6 @@ class ManualTest extends MarkdownToPdf {
   }
 
   /**
-   * Validate a test case markdown against the schema.
-   *
-   * @param string $path_to_markdown
-   *   Filepath to a test-case file.
-   *
-   * @throws \JsonSchema\Exception\ValidationException
-   *   If the file does not validate.
-   */
-  protected function validateTestCaseFileAgainstSchema($path_to_markdown) {
-    $markdown = file_get_contents($path_to_markdown);
-    $subject = $this->getFrontMatterFromMarkdown($markdown, FALSE);
-
-    // Pull out the sections keyed by h2.
-    $sections = preg_split('/##\s*(.+?)\n/', $markdown);
-
-    // Remove front matter.
-    array_shift($sections);
-
-    preg_match_all('/##\s*(.+?)\n/s', $markdown, $matches);
-    $subject += array_combine($matches[1], $sections);
-
-    if (isset($subject['Test Data'])) {
-      $parsedown = new Parsedown();
-      $html = $parsedown->text($subject['Test Data']);
-      preg_match('/<pre><code>(.+?)<\/code><\/pre>/si', $html, $matches);
-      $subject['Test Data'] = Yaml::parse($matches[1]);
-    }
-
-    $subject = json_decode(json_encode($subject));
-    try {
-      $validator = new Validator();
-      $validator->validate($subject, (object) ['$ref' => 'file://' . realpath(ROOT . '/includes/test_case.schema.json')], Constraint::CHECK_MODE_EXCEPTIONS);
-    }
-    catch (\Exception $exception) {
-      $class = get_class($exception);
-      throw new $class('Problem in file "' . basename($path_to_markdown) . '": ' . $exception->getMessage(), $exception->getCode(), $exception);
-    }
-  }
-
-  /**
    * Return all test suite names sorted alphabetically.
    *
    * @return array
@@ -131,7 +128,74 @@ class ManualTest extends MarkdownToPdf {
     return array_values($array);
   }
 
-  protected function onMarkdown($markdown, $filepath) {
+  /**
+   * {@inheritdoc}
+   */
+  public function getTemplateDirs() {
+    return [
+      ROOT . '/templates',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCompiledHtml() {
+    return $this->getTwig()->render('page.twig', [
+      'suite' => [
+        'title' => 'Test Suite',
+      ],
+      'testcases' => array_map(function ($path) {
+        $testcase = $this->getSourceFileMeta($path);
+        $testcase += [
+          'html' => $this->getSourceFileHtml($path),
+        ];
+
+        return $testcase;
+      }, $this->getMarkdownFiles()),
+      'styles' => $this->getCssStylesheets(),
+      'tester' => [
+        'name' => $this->testerName,
+      ],
+    ]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getSourceFileMeta($source_path) {
+    $metadata = parent::getSourceFileMeta($source_path);
+
+    // Mutate keys to lowercase.
+    $metadata = array_combine(array_map(function ($key) {
+      $key = strtolower($key);
+      switch ($key) {
+        case 'test case id':
+          return 'id';
+      }
+
+      return $key;
+    }, array_keys($metadata)), array_values($metadata));
+
+    // Normalize some metadata.
+    foreach ($metadata as $key => &$datum) {
+      switch ($key) {
+        case 'created':
+          if (!($date = date_create($datum))) {
+            throw new \RuntimeException("Could not parse created date value: $datum.");
+          }
+          $datum = $date->format('U');
+          break;
+      }
+    }
+
+    return $metadata;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function onProcessMarkdown($markdown, $filepath) {
     $markdown = preg_replace('/<(\/.+)>/', '<' . $this->baseUrl . '$1>', $markdown);
 
     // Ensure a test data section.
@@ -143,21 +207,9 @@ class ManualTest extends MarkdownToPdf {
   }
 
   /**
-   * Alter the HTML generated by a single markdown file.
-   *
-   * @param string $html
-   *   The HTML as generated directly from a markdown file.
-   * @param string $filepath
-   *   The path to the test case markdown file.
-   *
-   * @return string
-   *   The same or modified HTML.
-   *
-   * @throws \Twig_Error_Loader
-   * @throws \Twig_Error_Runtime
-   * @throws \Twig_Error_Syntax
+   * {@inheritdoc}
    */
-  protected function onHtml($html, $filepath) {
+  protected function onProcessHtml($html, $filepath) {
     // Replace relative links.
     $images_dir = rtrim(rtrim(dirname($filepath), '/') . '/images', '/');
     $html = preg_replace_callback('/((?:href|src)=")(.+?)(")/', function ($matches) use ($images_dir) {
@@ -256,38 +308,44 @@ class ManualTest extends MarkdownToPdf {
   }
 
   /**
-   * {@inheritdoc}
+   * Validate a test case markdown against the schema.
+   *
+   * @param string $filepath
+   *   Filepath to a test-case file.
+   *
+   * @throws \AKlump\Documentation\MarkdownSyntaxException
+   *   If the file does not validate against the schema.
    */
-  public function getProjectTitle() {
-    return $this->projectTitle;
+  protected function validateTestCaseFileAgainstSchema($filepath) {
+    $contents = "---\n" . preg_replace("/^\-\-\-\n/s", '', file_get_contents($filepath));
+
+    // We use the parent here, because we want the unprocessed frontmatter, as
+    // this is the API the test author sees and needs to be alerted to.
+    $frontmatter = parent::getSourceFileMeta($filepath);
+
+    // Pull out the sections keyed by h2.
+    $sections = preg_split('/##\s*(.+?)\n/', $contents);
+
+    // Remove front matter section.
+    array_shift($sections);
+    preg_match_all('/##\s*(.+?)\n/s', $contents, $matches);
+    $frontmatter += array_combine($matches[1], $sections);
+
+    if (isset($frontmatter['Test Data'])) {
+      $parsedown = new Parsedown();
+      $html = $parsedown->text($frontmatter['Test Data']);
+      preg_match('/<pre><code>(.+?)<\/code><\/pre>/si', $html, $matches);
+      $frontmatter['Test Data'] = Yaml::parse($matches[1]);
+    }
+
+    $subject = json_decode(json_encode($frontmatter));
+    try {
+      $validator = new Validator();
+      $validator->validate($subject, (object) ['$ref' => 'file://' . realpath(ROOT . '/includes/test_case.schema.json')], Constraint::CHECK_MODE_EXCEPTIONS);
+    }
+    catch (\Exception $e) {
+      throw new MarkdownSyntaxException($filepath, $e->getMessage(), $e->getCode(), $e);
+    }
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getTemplateDirs() {
-    return [
-      ROOT . '/templates',
-    ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function renderHtml() {
-    return $this->getTwig()->render('page.twig', [
-      'suite' => [
-        'title' => 'Test Suite',
-      ],
-      'testcases' => array_map(function ($path) {
-        $path = $this->markdownToHtml($path);
-
-        return $path;
-      }, $this->getMarkdownFiles()),
-      'styles' => $this->getStylesheets(),
-      'tester' => [
-        'name' => $this->testerName,
-      ],
-    ]);
-  }
 }

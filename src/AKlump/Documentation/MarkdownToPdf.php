@@ -18,6 +18,13 @@ use Twig_Loader_Filesystem;
 abstract class MarkdownToPdf implements MarkdownToPdfInterface {
 
   /**
+   * Holds the filepath for the events fired by fireEvent.
+   *
+   * @var string
+   */
+  protected $eventPath;
+
+  /**
    * Holds all the added callables (filters).
    *
    * @var array
@@ -61,9 +68,12 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * Get all stylesheets to be used in the HTML generation.
+   *
+   * @return array
+   *   An array of stylesheet filepaths.
    */
-  public function getStylesheets() {
+  protected function getCssStylesheets() {
     $styles = [];
     foreach ($this->getTemplateDirs() as $template_dir) {
       if (is_file($template_dir . '/style.css')) {
@@ -85,49 +95,109 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
   /**
    * {@inheritdoc}
    */
-  public function savePdfTo($pdf_filepath, $overwrite = FALSE) {
+  public function saveCompiledPdfTo($pdf_filepath, $overwrite = FALSE) {
     if (!$overwrite && file_exists($pdf_filepath)) {
       return FALSE;
     }
     $pdf = new Pdf($this->getWkHtmlToPdfConfig());
-    $pdf->addPage($this->renderHtml());
+    $pdf->addPage($this->getCompiledHtml());
 
     return $pdf->saveAs($pdf_filepath);
   }
 
   /**
-   * Convert markdown to html with custom handlers.
+   * Return metadata for a single markdown file.
+   *
+   * @param string $path_to_markdown_file
+   *   Path to the source file.
+   *
+   * @return array
+   *   An array of metadata; this has been altered by onProcessMeta.
+   *
+   * @see ::onProcessMeta
+   */
+  protected function getSourceFileMeta($path_to_markdown_file) {
+    // Add the leading '---' to make valid frontmatter for lazy authors.
+    $contents = "---\n" . preg_replace("/^\-\-\-\n/s", '', file_get_contents($path_to_markdown_file));
+
+    return YamlFrontMatter::parse($contents)->matter();
+  }
+
+  /**
+   * Return HTML for a single markdown file.
    *
    * @param string $path_to_markdown_file
    *   Path to a single markdown file.
    *
-   * @return array
-   *   With the following keys:
-   *   - meta The frontmatter array.
-   *   - html string The html to use for the testcase.
+   * @return string
+   *   The html to use for the testcase.
    *
    * @throws \Throwable
    * @throws \Twig_Error_Loader
    * @throws \Twig_Error_Syntax
+   *
+   * @see ::onProcessLoaded
+   * @see ::onProcessMarkdown
+   * @see ::onProcessHTML
    */
-  public function markdownToHtml($path_to_markdown_file) {
+  protected function getSourceFileHtml($path_to_markdown_file) {
     $this->eventPath = $path_to_markdown_file;
     $contents = $this->fireEvent('loaded', file_get_contents($path_to_markdown_file));
     $contents = "---\n" . preg_replace("/^\-\-\-\n/s", '', $contents);
-
-    // Get the frontmatter.
-    $meta = $this->getFrontMatterFromMarkdown(file_get_contents($path_to_markdown_file));
-    $object = YamlFrontMatter::parse($contents);
-
-    // Get the markdown.
-    $markdown = $this->fireEvent('markdown', $object->body());
+    $markdown = $this->fireEvent('markdown', YamlFrontMatter::parse($contents)
+      ->body());
     $parsedown = new Parsedown();
     $html = $this->fireEvent('html', $parsedown->text($markdown));
     $twig = $this->getTwig();
     $template = $twig->createTemplate($html);
     $html = $template->render([]);
 
-    return $meta + ['html' => $html];
+    return $html;
+  }
+
+  /**
+   * Modify the loaded content for a SINGLE markdown file before parsing.
+   *
+   * @param string $content
+   *   The raw file content.
+   * @param string $source_path
+   *   The filepath to the source markdown file.
+   *
+   * @return string
+   *   The (altered) file contents.
+   */
+  protected function onProcessFileLoad($content, $source_path) {
+    return $content;
+  }
+
+  /**
+   * Modify markdown for a SINGLE file before conversion to HTML.
+   *
+   * @param string $markdown
+   *   The markdown portion of the file (frontmatter removed).
+   * @param string $source_path
+   *   The filepath to the source markdown file.
+   *
+   * @return string
+   *   The (altered) markdown.
+   */
+  protected function onProcessMarkdown($markdown, $source_path) {
+    return $markdown;
+  }
+
+  /**
+   * Modify HTML for a SINGLE file.
+   *
+   * @param string $html
+   *   The HTML resulting from the markdown conversion.
+   * @param string $source_path
+   *   The filepath to the source markdown file.
+   *
+   * @return string
+   *   The (altered) markdown.
+   */
+  protected function onProcessHtml($html, $source_path) {
+    return $html;
   }
 
   /**
@@ -142,53 +212,9 @@ abstract class MarkdownToPdf implements MarkdownToPdfInterface {
    *   The data returned from the mutator.
    */
   private function fireEvent($event, $data) {
-    $method = "on$event";
+    $method = "onProcess$event";
     if (method_exists($this, $method)) {
       $data = $this->{$method}($data, $this->eventPath);
-    }
-
-    return $data;
-  }
-
-  /**
-   * Return the processed and normalized frontmatter from a file.
-   *
-   * @param string $markdown
-   *   The markdown content.
-   * @param bool $normalize
-   *   True and keys will be normalized; false and they are returned raw.
-   *
-   * @return array|false|mixed
-   */
-  protected function getFrontMatterFromMarkdown($markdown, $normalize = TRUE) {
-    $contents = "---\n" . preg_replace("/^\-\-\-\n/s", '', $markdown);
-
-    $data = YamlFrontMatter::parse($contents)->matter();
-    if (!$normalize) {
-      return $data;
-    }
-
-    // Mutate keys to lowercase.
-    $data = array_combine(array_map(function ($key) {
-      $key = strtolower($key);
-      switch ($key) {
-        case 'test case id':
-          return 'id';
-      }
-
-      return $key;
-    }, array_keys($data)), array_values($data));
-
-    // Normalize some metadata.
-    foreach ($data as $key => &$datum) {
-      switch ($key) {
-        case 'created':
-          if (!($date = date_create($datum))) {
-            throw new \RuntimeException("Could not parse created date value: $datum.");
-          }
-          $datum = $date->format('U');
-          break;
-      }
     }
 
     return $data;

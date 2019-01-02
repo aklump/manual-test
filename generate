@@ -72,14 +72,14 @@ try {
     });
   }
   //
-  //$html = $manual_test->renderHtml();
+  //$html = $manual_test->getCompiledHtml();
   //die($html);
 
   $save_to = $cli->getParam('save-to', $conf['basename']);
   if (strtolower(pathinfo($save_to, PATHINFO_EXTENSION)) !== 'pdf') {
     $save_to .= '.pdf';
   }
-  if (!($manual_test->savePdfTo($save_to, TRUE))) {
+  if (!($manual_test->saveCompiledPdfTo($save_to, TRUE))) {
     throw new \RuntimeException("Could not save: \"$save_to\", the file may already exist.");
   }
 }
