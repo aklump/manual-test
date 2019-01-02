@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b9d72eab352381f08ff632094e372e9",
+    "content-hash": "4cbbaa51dfee4407d2418bb3754e60fe",
     "packages": [
         {
             "name": "aklump/data",
@@ -51,6 +51,37 @@
                 "php"
             ],
             "time": "2017-05-31T01:04:19+00:00"
+        },
+        {
+            "name": "aklump/documentation",
+            "version": "1.0",
+            "dist": {
+                "type": "path",
+                "url": "lib/documentation",
+                "reference": "3d4d728431b8113b29a50f91c63ffcd995a62e9c",
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AKlump\\Documentation\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "AKlump\\Documentation\\": "tests/src"
+                }
+            },
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Klump",
+                    "email": "sourcecode@intheloftstudios.com"
+                }
+            ],
+            "homepage": "https://github.com/aklump/documentation"
         },
         {
             "name": "aklump/loft-lib",
