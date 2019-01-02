@@ -28,12 +28,23 @@ try {
 
   $path_to_config = $cli->getParam('configuration', ROOT . '/examples/config.xml');
   $config = simplexml_load_file($path_to_config);
+  if (!isset($config->manualtests)) {
+    throw new \RuntimeException("Bad syntax in configuration file; missing key \"manualtests\".  In " . realpath($path_to_config));
+  }
+
   foreach ($config->manualtests->children() as $name => $node) {
     switch ($name) {
       case 'testsuite':
         foreach ($node as $suite) {
           $suite_name = strval($node->attributes()->name);
-          $conf['testsuites'][$suite_name][] = strval($suite);
+          $path = $original_path = strval($suite);
+          if (substr($suite, 0, 1) !== '/') {
+            $path = realpath(ROOT . '/' . $path);
+          }
+          if (!$path || !($path = realpath($path))) {
+            throw new \RuntimeException("Testsuite does not resolve to a valid path: \"" . $original_path . '".');
+          }
+          $conf['testsuites'][$suite_name][] = $path;
         }
         break;
 
@@ -41,6 +52,10 @@ try {
         $conf[$name] = strval($node);
         break;
     }
+  }
+
+  if (empty($conf['testsuites'])) {
+    throw new \RuntimeException("No testsuites defined in your configuration file: " . realpath($path_to_config));
   }
 
   $manual_test = new ManualTest(
