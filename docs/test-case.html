@@ -2,12 +2,12 @@
 
 <html>
 <head>
-  <title>Test Data Section</title>
+  <title>Test Case Files</title>
   <link href="search/tipuesearch.css" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
 </head>
 
-<body class="page--test-data">
+<body class="page--test-case">
 <header>
   <div class="pager">
   <a href="pdf-config.html" class="prev pdf-config">&laquo;Pdf Config</a>
@@ -16,16 +16,35 @@
 </div>
 </header>
 
-  <div class="search__wrapper">
-  <form action="search--results.html">
-    <input type="text" class="search-input" name="q" id="tipue_search_input" autocomplete="off" required>
-  </form>
-</div>
 
-  <h1>Test Data Section</h1>
+  <h1>Test Case Files</h1>
   <div class="breadcrumb"><a href="index.html">Index</a></div>
 
 <section>
+
+<h2>File Structure</h2>
+
+<ul>
+<li>Each group directory should contain an <em>images</em> directory.</li>
+<li>Test files should be named to match their id, e.g. <em>er_amp_dl.md</em>.</li>
+</ul>
+
+<h2>Test Files</h2>
+
+<h3>Test Case Id</h3>
+
+<ul>
+<li>Should be lower-cased, and hyphenated.</li>
+<li>Short and unique across tests.</li>
+<li>The first component should reflect the group, e.g. first initial(s).</li>
+</ul>
+
+<h3>Pre-Conditions</h3>
+
+<ul>
+<li>Imperative statements telling the tester what to do before the test begins, so that the test can be performed.</li>
+</ul>
+
 
 <ul>
 <li>Test Data must follow an h2 header called <em>Test Data</em>.</li>
@@ -41,6 +60,12 @@
     Last name: your last name
     Email: a valid email you have access to
 </code></pre>
+
+<h3>Test Steps</h3>
+
+<ul>
+<li>Imperative statements telling the tester what to do from start to finish.</li>
+</ul>
 </section>
 
 <div class="search__results">
@@ -55,19 +80,11 @@
 </div>
   
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Wed, 02 Jan 2019 08:39:32 -0800</p>
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Mon, 07 Jan 2019 13:52:12 -0800</p>
   </div>
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <script src="search/tipuesearch_content.js"></script>
-  <script src="search/tipuesearch_set.js"></script>
-  <script src="search/tipuesearch.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      $('#tipue_search_input').tipuesearch();
-    });
-  </script>
 <script src="js/core.js"></script>
 </body>
 </html>
