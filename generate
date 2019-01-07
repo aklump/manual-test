@@ -23,7 +23,7 @@ try {
   require ROOT . '/includes/bootstrap.inc';
 
   $conf = [];
-  $conf['base_url'] = getenv('CLIENT_TEST_BASE_URL');
+  $conf['base_url'] = getenv('TEST_BASE_URL');
 
   $path_to_config = $cli->getParam('configuration', ROOT . '/examples/config.xml');
   $config = simplexml_load_file($path_to_config);

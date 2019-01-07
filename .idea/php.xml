@@ -26,16 +26,11 @@
       <path value="$PROJECT_DIR$/vendor/aklump/data" />
       <path value="$PROJECT_DIR$/vendor/aklump/loft-lib" />
       <path value="$PROJECT_DIR$/vendor/symfony/css-selector" />
-      <path value="$PROJECT_DIR$/vendor/mikehaertl/php-shellcommand" />
-      <path value="$PROJECT_DIR$/vendor/spatie/yaml-front-matter" />
       <path value="$PROJECT_DIR$/vendor/erusev/parsedown" />
-      <path value="$PROJECT_DIR$/vendor/twig/twig" />
       <path value="$PROJECT_DIR$/vendor/symfony/yaml" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
       <path value="$PROJECT_DIR$/vendor/symfony/dom-crawler" />
       <path value="$PROJECT_DIR$/vendor/justinrainbow/json-schema" />
-      <path value="$PROJECT_DIR$/vendor/mikehaertl/phpwkhtmltopdf" />
-      <path value="$PROJECT_DIR$/vendor/mikehaertl/php-tmpfile" />
       <path value="$PROJECT_DIR$/vendor/aklump/documentation" />
     </include_path>
   </component>
