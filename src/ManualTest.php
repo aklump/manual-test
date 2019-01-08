@@ -46,6 +46,13 @@ class ManualTest extends MarkdownToPdf {
   protected $schemaDir;
 
   /**
+   * Holds discovered tokens from test data.
+   *
+   * @var array
+   */
+  protected $tokens = [];
+
+  /**
    * Directory where validation templates can be found.
    *
    * @var string
@@ -252,6 +259,7 @@ class ManualTest extends MarkdownToPdf {
         if (!empty($matches[1]) && ($d = Yaml::parse($matches[1]))) {
           $test_data = $d;
         }
+        $this->tokens = $test_data + $this->tokens;
         $section = $this->getTwig()
           ->render('test-data.twig', ['data' => $test_data]);
       }
@@ -321,6 +329,10 @@ class ManualTest extends MarkdownToPdf {
     }
 
     return implode('<h2>', $sections);
+  }
+
+  public function getTokens() {
+    return $this->tokens;
   }
 
   /**

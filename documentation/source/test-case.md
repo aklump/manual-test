@@ -17,11 +17,12 @@
 
 * Imperative statements telling the tester what to do before the test begins, so that the test can be performed.
 
-# Test Data
+### Test Data
 
 * Test Data must follow an h2 header called _Test Data_.
 * Test data should be entered as YAML in a markdown code block.
 * Nothing else should be entered in this section.
+* These are available to be used as tokens, e.g. in your Test steps (see below)
 
 Here is an example of the markdown test case entry:
 
@@ -31,6 +32,18 @@ Here is an example of the markdown test case entry:
         Last name: your last name
         Email: a valid email you have access to
 
-### Test Steps
+### Test Execution
 
 * Imperative statements telling the tester what to do from start to finish.
+* Indent assertion(s) as a child list as seen below.
+* Use Test Data tokens as necessary
+
+      ## Test Execution
+   
+      1. Enter {{ First name }} into the form.
+      1. Enter {{ Last name }} into the form.
+      1. Submit form.
+        - The next page says _Hello {{ First name }} {{ Last name }}_.
+      1. Return to the previous page.
+        - Assert First name is not empty.
+        - Assert Last name is not empty.
