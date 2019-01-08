@@ -21,6 +21,7 @@
 
 * Test Data must follow an h2 header called _Test Data_.
 * Test data should be entered as YAML in a markdown code block.
+* The keys must not include spaces, but may mix case.  Do not use special chars. 
 * Nothing else should be entered in this section.
 * These are available to be used as tokens, e.g. in your Test steps (see below)
 
@@ -28,8 +29,8 @@ Here is an example of the markdown test case entry:
 
     ## Test Data
     
-        First name: your first name
-        Last name: your last name
+        First_name: your first name
+        Last_name: your last name
         Email: a valid email you have access to
 
 ### Test Execution

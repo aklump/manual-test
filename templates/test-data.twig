@@ -4,7 +4,7 @@
     <tbody>
     {% for name, value in data %}
       <tr>
-        <td><em>{{ name }}</em></td>
+        <td>{{ name|replace({"_":" "}) }}</td>
         <td><code>{{ value }}</code></td>
       </tr>
     {% endfor %}
