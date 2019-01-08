@@ -277,7 +277,7 @@ class ManualTest extends MarkdownToPdf {
             $rows[$row]['items'][] = trim($step[0]);
             $steps = $node->filter('ul>li')
               ->each(function (Crawler $node2, $j) use (&$rows, $row, $node) {
-                return trim($node2->text());
+                return trim($node2->html());
               });
             if ($steps) {
               $rows[++$row] = [
