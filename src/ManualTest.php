@@ -330,11 +330,24 @@ class ManualTest extends MarkdownToPdf {
       }
     }
 
-    return implode('<h2>', $sections);
+    $html = implode('<h2>', $sections);
+
+    // Replace all non-underscored token usages with underscores so twig works correctly.
+    foreach (array_keys($this->tokens) as $key) {
+      $html = preg_replace('/{{\s*' . $key . '\s*}}/', '{{ ' . str_replace(' ', '_', $key) . ' }}', $html);
+    }
+
+    return $html;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getTokens() {
-    return $this->tokens;
+    // Add underscores to token keys so Twig works correctly.
+    return array_combine(array_map(function ($key) {
+      return str_replace(' ', '_', $key);
+    }, array_keys($this->tokens)), $this->tokens);
   }
 
   /**

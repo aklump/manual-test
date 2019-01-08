@@ -21,7 +21,6 @@
 
 * Test Data must follow an h2 header called _Test Data_.
 * Test data should be entered as YAML in a markdown code block.
-* The keys must not include spaces, but may mix case.  Do not use special chars. 
 * Nothing else should be entered in this section.
 * These are available to be used as tokens, e.g. in your Test steps (see below)
 
