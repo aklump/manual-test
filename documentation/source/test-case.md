@@ -1,5 +1,12 @@
 # Test Case Files
 
+## Entering URLS
+
+* Enter all URLS pointing to the test site without the domain; it will be added based on the configuration.  For example if you wanted to link to the admin page of the site under test use something like one of these:
+
+      </admin>
+      [Admin page](/admin)
+
 ## File Structure
 
 * Each group directory should contain an _images_ directory.
@@ -28,8 +35,8 @@ Here is an example of the markdown test case entry:
 
     ## Test Data
     
-        First_name: your first name
-        Last_name: your last name
+        First name: your first name
+        Last name: your last name
         Email: a valid email you have access to
 
 ### Test Execution
