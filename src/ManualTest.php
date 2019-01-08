@@ -259,7 +259,9 @@ class ManualTest extends MarkdownToPdf {
         if (!empty($matches[1]) && ($d = Yaml::parse($matches[1]))) {
           $test_data = $d;
         }
-        $this->tokens = $test_data + $this->tokens;
+        $this->tokens = array_map(function ($item) {
+            return "<code>$item</code>";
+          }, $test_data) + $this->tokens;
         $section = $this->getTwig()
           ->render('test-data.twig', ['data' => $test_data]);
       }
