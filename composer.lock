@@ -54,16 +54,16 @@
         },
         {
             "name": "aklump/documentation",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aklump/documentation.git",
-                "reference": "3e29b4bfe12b8ffdb64620ba2635eda3b7b20da4"
+                "reference": "0298b30b16de67393c9d3b38b1956b6fe1d9b064"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aklump/documentation/zipball/3e29b4bfe12b8ffdb64620ba2635eda3b7b20da4",
-                "reference": "3e29b4bfe12b8ffdb64620ba2635eda3b7b20da4",
+                "url": "https://api.github.com/repos/aklump/documentation/zipball/0298b30b16de67393c9d3b38b1956b6fe1d9b064",
+                "reference": "0298b30b16de67393c9d3b38b1956b6fe1d9b064",
                 "shasum": ""
             },
             "require": {
@@ -89,7 +89,7 @@
                 }
             ],
             "homepage": "https://github.com/aklump/documentation",
-            "time": "2019-01-05T03:03:21+00:00"
+            "time": "2019-01-08T03:02:18+00:00"
         },
         {
             "name": "aklump/loft-lib",
