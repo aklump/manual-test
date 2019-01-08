@@ -45,11 +45,13 @@
 <li>Imperative statements telling the tester what to do before the test begins, so that the test can be performed.</li>
 </ul>
 
+<h3>Test Data</h3>
 
 <ul>
 <li>Test Data must follow an h2 header called <em>Test Data</em>.</li>
 <li>Test data should be entered as YAML in a markdown code block.</li>
 <li>Nothing else should be entered in this section.</li>
+<li>These are available to be used as tokens, e.g. in your Test steps (see below)</li>
 </ul>
 
 <p>Here is an example of the markdown test case entry:</p>
@@ -61,10 +63,30 @@
     Email: a valid email you have access to
 </code></pre>
 
-<h3>Test Steps</h3>
+<h3>Test Execution</h3>
 
 <ul>
 <li>Imperative statements telling the tester what to do from start to finish.</li>
+<li>Indent assertion(s) as a child list as seen below.</li>
+<li><p>Use Test Data tokens as necessary</p>
+
+<p>## Test Execution</p>
+
+<ol>
+<li>Enter {{ First name }} into the form.</li>
+<li>Enter {{ Last name }} into the form.</li>
+<li>Submit form.
+
+<ul>
+<li>The next page says <em>Hello {{ First name }} {{ Last name }}</em>.</li>
+</ul></li>
+<li>Return to the previous page.
+
+<ul>
+<li>Assert First name is not empty.</li>
+<li>Assert Last name is not empty.</li>
+</ul></li>
+</ol></li>
 </ul>
 </section>
 
@@ -80,7 +102,7 @@
 </div>
   
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Mon, 07 Jan 2019 13:52:12 -0800</p>
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Mon, 07 Jan 2019 18:39:04 -0800</p>
   </div>
 </footer>
 
