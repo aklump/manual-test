@@ -90,8 +90,15 @@ try {
   if (strtolower(pathinfo($save_to, PATHINFO_EXTENSION)) !== 'pdf') {
     $save_to .= '.pdf';
   }
-  if (!($manual_test->saveCompiledPdfTo($save_to, TRUE))) {
-    throw new \RuntimeException("Could not save: \"$save_to\", the file may already exist.");
+
+  if ($cli->hasParam('html')) {
+    $save_to .= '.html';
+    file_put_contents($save_to, $manual_test->getCompiledHtml());
+  }
+  else {
+    if (!$manual_test->saveCompiledPdfTo($save_to, TRUE)) {
+      throw new \RuntimeException("Could not save: \"$save_to\", the file may already exist.");
+    }
   }
 }
 catch (\Exception $exception) {
