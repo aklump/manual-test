@@ -157,16 +157,20 @@ class ManualTest extends MarkdownToPdf {
    * {@inheritdoc}
    */
   public function getTemplateDirs() {
-    return [$this->templateDir];
+    $dirs = parent::getTemplateDirs();
+    array_unshift($dirs, $this->templateDir);
+
+    return $dirs;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getCompiledHtml() {
-    return $this->getTwig()->render('page.twig', [
-      'suite' => [
+    return $this->getTwig()->render('testcase.twig', [
+      'page' => [
         'title' => 'Test Suite',
+        'styles' => $this->getCssStylesheets(),
       ],
       'testcases' => array_map(function ($path) {
         $testcase = $this->getSourceFileMeta($path);
@@ -176,7 +180,6 @@ class ManualTest extends MarkdownToPdf {
 
         return $testcase;
       }, $this->getMarkdownFiles()),
-      'styles' => $this->getCssStylesheets(),
       'tester' => [
         'name' => $this->testerName,
       ],

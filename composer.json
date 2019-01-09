@@ -11,7 +11,7 @@
         }
     },
     "require": {
-        "aklump\/documentation": "^1.0",
+        "aklump\/documentation": "^1.0.6",
         "aklump\/loft-lib": "^1.0",
         "erusev\/parsedown": "^1.7",
         "justinrainbow\/json-schema": "^5.2",

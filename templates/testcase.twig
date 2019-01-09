@@ -1,0 +1,14 @@
+{% extends "page.twig" %}
+{% block head %}
+  {{ parent() }}
+  <link href="https://fonts.googleapis.com/css?family=Thasadith:700,700i" rel="stylesheet">
+{% endblock %}
+{% block body %}
+  {% for testcase in testcases %}
+    <section class="testcase">
+      <h1>Test Case: {{ testcase.id }} {% include('pass-fail.twig') with {name: testcase.id ~ '-pass'} %}</h1>
+      {{ testcase.html|raw }}
+      {% include('tester-comments.twig') %}
+    </section>
+  {% endfor %}
+{% endblock %}
