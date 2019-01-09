@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4bc557251be6a66e2f25030f6fd7b06f",
+    "content-hash": "4dc1cc5e6715298cb601d7d7eb2cc1c5",
     "packages": [
         {
             "name": "aklump/data",
@@ -54,16 +54,16 @@
         },
         {
             "name": "aklump/documentation",
-            "version": "1.0.4",
+            "version": "1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aklump/documentation.git",
-                "reference": "0298b30b16de67393c9d3b38b1956b6fe1d9b064"
+                "reference": "de5d232fe2a3bbd11c13a2cfcd12919ad96fc97b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aklump/documentation/zipball/0298b30b16de67393c9d3b38b1956b6fe1d9b064",
-                "reference": "0298b30b16de67393c9d3b38b1956b6fe1d9b064",
+                "url": "https://api.github.com/repos/aklump/documentation/zipball/de5d232fe2a3bbd11c13a2cfcd12919ad96fc97b",
+                "reference": "de5d232fe2a3bbd11c13a2cfcd12919ad96fc97b",
                 "shasum": ""
             },
             "require": {
@@ -89,7 +89,7 @@
                 }
             ],
             "homepage": "https://github.com/aklump/documentation",
-            "time": "2019-01-08T03:02:18+00:00"
+            "time": "2019-01-09T19:37:08+00:00"
         },
         {
             "name": "aklump/loft-lib",
@@ -245,7 +245,7 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "5.7.19",
+            "version": "v5.7.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
@@ -289,16 +289,16 @@
         },
         {
             "name": "illuminate/support",
-            "version": "5.7.19",
+            "version": "v5.7.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "1caddfa63a40d2f229bb0948d9871540da666d0b"
+                "reference": "ea3f30dd824bba52bcff4290dc7431b0ffb478e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/1caddfa63a40d2f229bb0948d9871540da666d0b",
-                "reference": "1caddfa63a40d2f229bb0948d9871540da666d0b",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/ea3f30dd824bba52bcff4290dc7431b0ffb478e1",
+                "reference": "ea3f30dd824bba52bcff4290dc7431b0ffb478e1",
                 "shasum": ""
             },
             "require": {
@@ -344,7 +344,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
-            "time": "2018-12-18T13:45:35+00:00"
+            "time": "2019-01-07T13:39:07+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
