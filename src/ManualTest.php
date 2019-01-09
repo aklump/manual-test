@@ -259,9 +259,6 @@ class ManualTest extends MarkdownToPdf {
         if (!empty($matches[1]) && ($d = Yaml::parse($matches[1]))) {
           $test_data = $d;
         }
-        $this->tokens = array_map(function ($item) {
-            return "<code>$item</code>";
-          }, $test_data) + $this->tokens;
         $section = $this->getTwig()
           ->render('test-data.twig', ['data' => $test_data]);
       }
@@ -332,22 +329,16 @@ class ManualTest extends MarkdownToPdf {
 
     $html = implode('<h2>', $sections);
 
-    // Replace all non-underscored token usages with underscores so twig works correctly.
-    foreach (array_keys($this->tokens) as $key) {
-      $html = preg_replace('/{{\s*' . $key . '\s*}}/', '{{ ' . str_replace(' ', '_', $key) . ' }}', $html);
+    // Do a string replace of test data tokens.  We don't use ::getTokens()
+    // because Twig doesn't like the use of keys with spaces or special chars,
+    // which may be present in the test data keys.
+    if (strstr($html, '{{') !== FALSE) {
+      foreach ($test_data as $key => $value) {
+        $html = str_replace("{{ $key }}", "<code>$value</code>", $html);
+      }
     }
 
     return $html;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getTokens() {
-    // Add underscores to token keys so Twig works correctly.
-    return array_combine(array_map(function ($key) {
-      return str_replace(' ', '_', $key);
-    }, array_keys($this->tokens)), $this->tokens);
   }
 
   /**
