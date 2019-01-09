@@ -222,7 +222,10 @@ class ManualTest extends MarkdownToPdf {
    * {@inheritdoc}
    */
   protected function onProcessMarkdown($markdown, $filepath) {
+
+    // Make relative links absolute using $this->baseUrl.
     $markdown = preg_replace('/<(\/.+)>/', '<' . $this->baseUrl . '$1>', $markdown);
+    $markdown = preg_replace('/\](?:\((\/.+?)\))/', '](' . $this->baseUrl . '$1)', $markdown);
 
     // Ensure a test data section.
     if (strstr($markdown, '## Test Data') === FALSE) {
@@ -236,19 +239,8 @@ class ManualTest extends MarkdownToPdf {
    * {@inheritdoc}
    */
   protected function onProcessHtml($html, $filepath) {
-    // Replace relative links.
-    $images_dir = rtrim(rtrim(dirname($filepath), '/') . '/images', '/');
-    $html = preg_replace_callback('/((?:href|src)=")(.+?)(")/', function ($matches) use ($images_dir) {
-      array_shift($matches);
-      if (preg_match('/^images/', $matches[1])) {
-        $matches[1] = str_replace("images/", "$images_dir/", $matches[1]);
-      }
-      elseif (!preg_match('/^http/', $matches[1])) {
-        $matches[1] = rtrim($this->baseUrl, '/') . '/' . trim($matches[1], '/');
-      }
 
-      return implode($matches);
-    }, $html);
+    $html = $this->resolveRelativeFilepathsInString(dirname($filepath), $html);
 
     // Add some markup classes.
     $html = str_replace('<table>', '<table class="pure-table">', $html);
