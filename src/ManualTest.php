@@ -254,7 +254,7 @@ class ManualTest extends MarkdownToPdf {
         if (!empty($matches[1]) && ($d = Yaml::parse($matches[1]))) {
           $test_data = $d;
         }
-        $section = $this->getTwig()
+        $section = $this->getTwigForTokenReplacement()
           ->render('test-data.twig', ['data' => $test_data]);
       }
       elseif (preg_match('/^Test Execution/i', $section)) {
