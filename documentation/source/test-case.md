@@ -7,6 +7,15 @@
       </admin>
       [Admin page](/admin)
 
+
+## Built in Tokens
+
+The following tokens may be used in your test cases:
+
+    {{ website.pretty }}
+    {{ website.link }}
+    {{ website.url }}
+
 ## File Structure
 
 * Each group directory should contain an _images_ directory.

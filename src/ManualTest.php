@@ -337,6 +337,15 @@ class ManualTest extends MarkdownToPdf {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function getTokens() {
+    return [
+      'website' => $this->getUrlTokens($this->baseUrl),
+    ];
+  }
+
+  /**
    * Validate a test case markdown against the schema.
    *
    * @param string $filepath
