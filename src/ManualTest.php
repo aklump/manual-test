@@ -224,8 +224,8 @@ class ManualTest extends MarkdownToPdf {
   protected function onProcessMarkdown($markdown, $filepath) {
 
     // Make relative links absolute using $this->baseUrl.
-    $markdown = preg_replace('/<(\/.+)>/', '<' . $this->baseUrl . '$1>', $markdown);
-    $markdown = preg_replace('/\](?:\((\/.+?)\))/', '](' . $this->baseUrl . '$1)', $markdown);
+    $markdown = preg_replace('/<(\/.*)>/', '<' . $this->baseUrl . '$1>', $markdown);
+    $markdown = preg_replace('/\](?:\((\/.*?)\))/', '](' . $this->baseUrl . '$1)', $markdown);
 
     // Ensure a test data section.
     if (strstr($markdown, '## Test Data') === FALSE) {
