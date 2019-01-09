@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4dc1cc5e6715298cb601d7d7eb2cc1c5",
+    "content-hash": "2cb3b9467127b45ee945fe7f788f2080",
     "packages": [
         {
             "name": "aklump/data",
@@ -54,16 +54,16 @@
         },
         {
             "name": "aklump/documentation",
-            "version": "1.0.6",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aklump/documentation.git",
-                "reference": "de5d232fe2a3bbd11c13a2cfcd12919ad96fc97b"
+                "reference": "3f9965fcaa13c5e5a73e2e7aa2b5d6d920e56918"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aklump/documentation/zipball/de5d232fe2a3bbd11c13a2cfcd12919ad96fc97b",
-                "reference": "de5d232fe2a3bbd11c13a2cfcd12919ad96fc97b",
+                "url": "https://api.github.com/repos/aklump/documentation/zipball/3f9965fcaa13c5e5a73e2e7aa2b5d6d920e56918",
+                "reference": "3f9965fcaa13c5e5a73e2e7aa2b5d6d920e56918",
                 "shasum": ""
             },
             "require": {
@@ -89,7 +89,7 @@
                 }
             ],
             "homepage": "https://github.com/aklump/documentation",
-            "time": "2019-01-09T19:37:08+00:00"
+            "time": "2019-01-09T22:36:08+00:00"
         },
         {
             "name": "aklump/loft-lib",
