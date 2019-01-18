@@ -52,7 +52,10 @@ try {
   }
 
   if (empty($conf['testsuites'])) {
-    throw new \RuntimeException("No testsuites defined in your configuration file: " . realpath($path_to_config));
+    throw new \RuntimeException("No 'testsuites' defined in your configuration file: " . realpath($path_to_config));
+  }
+  if (empty($conf['tester'])) {
+    throw new \RuntimeException("Missing default tester name defined in your configuration file as 'tester': " . realpath($path_to_config));
   }
 
   $manual_test = new ManualTest(
