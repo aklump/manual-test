@@ -34,10 +34,11 @@
 
 <ol>
 <li><code>composer require aklump/manual-test</code></li>
-<li><code>cp ./examples/config.xml ./config.xml</code></li>
+<li><code>cp ./vendor/aklump/manual-test/examples/config.xml ./config.xml</code></li>
 <li>Modify <em>config.xml</em> as necessary</li>
+<li>Create at least one folder, with a manual test.</li>
 <li>Relative paths are relative to the config file.</li>
-<li><code>./vendor/bin/generate --configuration=manualtest.xml</code></li>
+<li><code>export TEST_BASE_URL=http://mysite.com; ./vendor/bin/generate --configuration=config.xml</code></li>
 </ol>
 
 <h2>Requirements</h2>
@@ -73,7 +74,7 @@
 </div>
   
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Wed, 23 Jan 2019 16:10:59 -0800</p>
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Mon, 28 Jan 2019 08:47:55 -0800</p>
   </div>
 </footer>
 

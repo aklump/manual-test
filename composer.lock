@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7b43437c2b90acdbd6b24a8c3f53c0b",
+    "content-hash": "dce6e7f9b2ac8b5051ab53ca9416d91c",
     "packages": [
         {
             "name": "aklump/data",
@@ -93,16 +93,16 @@
         },
         {
             "name": "aklump/loft-lib",
-            "version": "1.0.17",
+            "version": "1.0.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aklump/loft-lib.git",
-                "reference": "c8b8ac44f2252de13b4581bf57a11bb3205e0e47"
+                "reference": "b2f5eceb4257e02a0b9fba49194a34f2ae4ac391"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aklump/loft-lib/zipball/c8b8ac44f2252de13b4581bf57a11bb3205e0e47",
-                "reference": "c8b8ac44f2252de13b4581bf57a11bb3205e0e47",
+                "url": "https://api.github.com/repos/aklump/loft-lib/zipball/b2f5eceb4257e02a0b9fba49194a34f2ae4ac391",
+                "reference": "b2f5eceb4257e02a0b9fba49194a34f2ae4ac391",
                 "shasum": ""
             },
             "require": {
@@ -128,7 +128,7 @@
                 }
             ],
             "description": "Core utilities provided by In the Loft Studios",
-            "time": "2019-01-23T23:42:58+00:00"
+            "time": "2019-01-24T04:25:02+00:00"
         },
         {
             "name": "doctrine/inflector",
