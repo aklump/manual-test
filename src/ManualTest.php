@@ -307,7 +307,7 @@ class ManualTest extends MarkdownToPdf {
           $results = preg_replace_callback('/<li>(.+?<\/li>)/', function ($matches) use (&$input_index) {
             $name = ++self::$inputIndex;
 
-            return "<li>{% include('pass.twig') with {name:$name} %} " . $matches[1];
+            return "<li>{% include('fail.twig') with {name:$name} %} " . $matches[1];
           }, $results);
 
           $tds = [];
