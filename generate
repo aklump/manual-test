@@ -109,5 +109,5 @@ catch (\Exception $exception) {
   exit(1);
 }
 
-echo Color::wrap('green', 'Manual test suite saved to: ' . $save_to) . PHP_EOL;
+echo Color::wrap('green', 'Manual test suite saved to: ' . realpath($save_to)) . PHP_EOL;
 exit(0);
