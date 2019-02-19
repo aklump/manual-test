@@ -19,7 +19,7 @@
         "symfony\/dom-crawler": "^3.4",
         "symfony\/yaml": "^3.4"
     },
-    "version": "1.2.0",
+    "version": "1.2.1",
     "bin": [
         ".\/generate"
     ],
