@@ -9,29 +9,28 @@
 
 <body class="page--test-case">
 <header>
-  <div class="pager">
-  <a href="pdf-config.html" class="prev pdf-config">&laquo;Pdf Config</a>
-  <a href="index.html" class="index">Index</a>
-  <a href="index.html" class="next index">Index&raquo;</a>
-</div>
-</header>
+  <div class="pager"><a href="pdf-config.html" class="prev pdf-config">&laquo;Pdf Config</a><a href="index.html" class="index pager__book-title">Manual Test</a><a href="index.html" class="next index">Index&raquo;</a></div></header>
+<section class="sub-header">
+  <div class="breadcrumbs"><a href="index.html">Index</a>
+         &raquo
+      </div>  </section>
 
 
-  <h1>Test Case Files</h1>
-  <div class="breadcrumb"><a href="index.html">Index</a></div>
+<h1>Test Case Files</h1>
 
 <section>
 
 <h2>Entering URLS</h2>
 
 <ul>
-<li><p>Enter all URLS pointing to the test site without the domain; it will be added based on the configuration.  For example if you wanted to link to the admin page of the site under test use something like one of these:</p>
+<li><p>Enter all URLS pointing to the test site without the domain; the domain will be added based on the configuration when the test is generated.  For example if you wanted to link to the admin page of the site under test use something like one of these; notice the leading forward slash.</p>
 
-<p></admin>
-  <a href="/admin">Admin page</a></p></li>
+<pre><code>&lt;/admin&gt;
+[Admin page](/admin)
+</code></pre></li>
 </ul>
 
-<h2>Built in Tokens</h2>
+<h2>Tokens</h2>
 
 <p>The following tokens may be used in your test cases:</p>
 
@@ -47,20 +46,44 @@
 <li>Test files should be named to match their id, e.g. <em>er_amp_dl.md</em>.</li>
 </ul>
 
-<h2>Test Files</h2>
+<h2>Parts of a Test File</h2>
 
-<h3>Test Case Id</h3>
+<p>Test files are markdown files with Yaml frontmatter.  Certain level two headers have specific and defined meanings, with special rendering; these are described below.  The design is meant to make writing tests super fast and easy using familiar patterns.</p>
+
+<h3>Frontmatter</h3>
+
+<h4>Test Case Id</h4>
 
 <ul>
 <li>Should be lower-cased, and hyphenated.</li>
 <li>Short and unique across tests.</li>
-<li>The first component should reflect the group, e.g. first initial(s).</li>
+<li><p>The first component should reflect the group, e.g. first initial(s).</p>
+
+<pre><code>Test Case ID: admin
+Test Suite: AutoRetina
+Author: Aaron Klump
+Created: February 27, 2019
+---
+</code></pre></li>
 </ul>
+
+<h3>Test Scenario</h3>
+
+<pre><code>    ## Test Scenario
+
+    The admin form loads and saves new info as expected.      
+</code></pre>
 
 <h3>Pre-Conditions</h3>
 
 <ul>
-<li>Imperative statements telling the tester what to do before the test begins, so that the test can be performed.</li>
+<li><p>Imperative statements telling the tester what to do before the test begins, so that the test can be performed.</p>
+
+<pre><code>## Pre-Conditions
+
+1. Make sure [Image Style Quality module](https://www.drupal.org/project/image_style_quality) is uninstalled.
+1. Log in with proper permissions.
+</code></pre></li>
 </ul>
 
 <h3>Test Data</h3>
@@ -70,15 +93,25 @@
 <li>Test data should be entered as YAML in a markdown code block.</li>
 <li>Nothing else should be entered in this section.</li>
 <li>These are available to be used as tokens, e.g. in your Test steps (see below)</li>
-</ul>
-
-<p>Here is an example of the markdown test case entry:</p>
+<li><p>You can have "hidden" test data, which will not render, but can be used as tokens, by starting the token name with an underscore.</p>
 
 <pre><code>## Test Data
 
     First name: your first name
     Last name: your last name
     Email: a valid email you have access to
+    _Hidden Token: 50%
+</code></pre></li>
+</ul>
+
+<h3>Tokens</h3>
+
+<p>Just like <code>Test Data</code>, except this section will not be rendered.  Use this section to define tokens.</p>
+
+<pre><code>## Tokens
+
+    Final size: large
+    Color: blue
 </code></pre>
 
 <h3>Test Execution</h3>
@@ -88,23 +121,16 @@
 <li>Indent assertion(s) as a child list as seen below.</li>
 <li><p>Use Test Data tokens as necessary</p>
 
-<p>## Test Execution</p>
+<pre><code>## Test Execution
 
-<ol>
-<li>Enter {{ First name }} into the form.</li>
-<li>Enter {{ Last name }} into the form.</li>
-<li>Submit form.
-
-<ul>
-<li>The next page says <em>Hello {{ First name }} {{ Last name }}</em>.</li>
-</ul></li>
-<li>Return to the previous page.
-
-<ul>
-<li>Assert First name is not empty.</li>
-<li>Assert Last name is not empty.</li>
-</ul></li>
-</ol></li>
+1. Enter {{ First name }} into the form.
+1. Enter {{ Last name }} into the form.
+1. Submit form.
+  - The next page says _Hello {{ First name }} {{ Last name }}_.
+1. Return to the previous page.
+  - Assert First name is not empty.
+  - Assert Last name is not empty.
+</code></pre></li>
 </ul>
 </section>
 
@@ -113,14 +139,9 @@
 </div>
 
 <footer>
-  <div class="pager">
-  <a href="pdf-config.html" class="prev pdf-config">&laquo;Pdf Config</a>
-  <a href="index.html" class="index">Index</a>
-  <a href="index.html" class="next index">Index&raquo;</a>
-</div>
-  
+  <div class="pager"><a href="pdf-config.html" class="prev pdf-config">&laquo;Pdf Config</a><a href="index.html" class="index pager__book-title">Manual Test</a><a href="index.html" class="next index">Index&raquo;</a></div>  
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Mon, 18 Feb 2019 19:54:58 -0800</p>
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Sat, 02 Mar 2019 18:34:39 -0800</p>
   </div>
 </footer>
 
