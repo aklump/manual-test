@@ -3,10 +3,12 @@
   <table class="pure-table pure-table-bordered">
     <tbody>
     {% for name, value in data %}
-      <tr>
-        <td>{{ name|replace({"_":" "}) }}</td>
-        <td><code>{{ value }}</code></td>
-      </tr>
+      {% if name|first != "_" %}
+        <tr>
+          <td>{{ name|replace({"_":" "}) }}</td>
+          <td><code>{{ value }}</code></td>
+        </tr>
+      {% endif %}
     {% endfor %}
     </tbody>
   </table>

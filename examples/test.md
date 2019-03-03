@@ -14,10 +14,12 @@ Searching from the homepage returns relevent results.
 ## Test Data
 
     Search term: pizza
+    _Flavor: pepperoni
 
 ## Test Execution
 
 1. Visit the homepage <http://www.google.com>.
   - A search box exists on the page.
 1. Enter the search term and submit.
-  - Relevent results are returned for your search term.
+  - Relevent results are returned for your search term such as {{ _Flavor }}
+  
