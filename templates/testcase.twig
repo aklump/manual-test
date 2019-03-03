@@ -6,6 +6,12 @@
 {% block body %}
   {% for testcase in testcases %}
     <section class="testcase">
+      <div class="testcase__suite-group">
+        {% if testcase.test_suite %}
+          <span class="testcase_suite">Test Suite: {{ testcase.test_suite }}</span>{% endif %}
+        {% if testcase.group %}
+          <span class="testcase_group">Group: {{ testcase.group }}</span>{% endif %}
+      </div>
       <h1>Test Case: {{ testcase.id }} {% include('pass-fail.twig') with {name: testcase.id ~ '-pass'} %}</h1>
       {{ testcase.html|raw }}
       {% include('tester-comments.twig') %}

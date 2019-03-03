@@ -17,12 +17,23 @@ The following tokens may be used in your test cases:
 
 ## File Structure
 
+    └── auto_retina
+        ├── admin.md
+        ├── image_quality.md
+        ├── images
+        │   ├── js-1.jpg
+        │   └── js-2.jpg
+        └── js.md
+
+* Test files should be named to match their id, e.g. _admin.md, image_quality.md, js.md_.
+* Test Scenarios should be created one to a file.
+* The directory that contains test scenarios will be used to define it's group. Group directory names should be lower-case, underscore named, e.g., _auto_retina_.  (You may also provide a group name in the frontmatter to override the directory name).
 * Each group directory should contain an _images_ directory.
-* Test files should be named to match their id, e.g. _er_amp_dl.md_.
+* Image names should match the test scenario following by an incremental number, e.g. _js-1.jpg, js-2.jpg_.
 
 ## Parts of a Test File
 
-Test files are markdown files with Yaml frontmatter.  Certain level two headers have specific and defined meanings, with special rendering; these are described below.  The design is meant to make writing tests super fast and easy using familiar patterns.
+Test files are markdown files with yaml frontmatter.  Certain level two headers have specific and defined meanings, with special rendering; these are described below.  The design is meant to make writing tests super fast and easy using familiar patterns.
 
 ### Frontmatter
 
@@ -37,6 +48,22 @@ Test files are markdown files with Yaml frontmatter.  Certain level two headers 
         Author: Aaron Klump
         Created: February 27, 2019
         ---
+
+#### Test Suite
+
+This is optional.
+
+#### Author
+
+You should enter the name of the author of this test.
+
+#### Created
+
+This must be a parseable date, e.g., `February 27, 2019`
+
+#### Group
+
+The group is determined automatically based on the name of the directory containing the test case file.  You may override this by using `Group: {group}` in your frontmatter.  You can even said the group to an empty string to suppress the group, e.g. `Group: ''`.
       
 ### Test Scenario
         

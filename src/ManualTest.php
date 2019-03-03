@@ -119,7 +119,7 @@ class ManualTest extends MarkdownToPdf {
           $meta = $this->getSourceFileMeta($file);
           foreach ($this->testsuites as $name => $paths) {
             if (in_array($file, $paths)) {
-              $meta['test suite'] = $name;
+              $meta['test_suite'] = $name;
             }
           }
 
@@ -195,8 +195,9 @@ class ManualTest extends MarkdownToPdf {
     // Mutate keys to lowercase.
     $metadata = array_combine(array_map(function ($key) {
       $key = strtolower($key);
+      $key = str_replace(' ', '_', $key);
       switch ($key) {
-        case 'test case id':
+        case 'test_case_id':
           return 'id';
       }
 
@@ -212,7 +213,13 @@ class ManualTest extends MarkdownToPdf {
           }
           $datum = $date->format('U');
           break;
+
       }
+    }
+
+    // Auto-discover the group based on parent directory.
+    if (!array_key_exists('group', $metadata)) {
+      $metadata['group'] = ucwords(preg_replace('/[-_]/', ' ', basename(dirname($source_path))));
     }
 
     return $metadata;

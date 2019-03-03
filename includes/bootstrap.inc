@@ -34,6 +34,7 @@ if (($diff = array_diff_key($cli->getParams(), array_flip([
   'tester',
   'filter',
   'testsuite',
+  'group',
 ])))) {
   throw new \InvalidArgumentException("Unknown parameter: " . key($diff));
 }

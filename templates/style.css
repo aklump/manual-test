@@ -28,8 +28,16 @@ td img {
     margin: 0 auto;
 }
 
-h1 {
+section.testcase {
     page-break-before: always;
+}
+
+.testcase_group {
+    margin-right: 36px;
+}
+
+.testcase_suite {
+    margin-right: 36px;
 }
 
 h1 span.results {

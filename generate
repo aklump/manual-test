@@ -84,7 +84,18 @@ try {
       return array_map(function ($item) {
         return $item['path'];
       }, array_filter($files, function ($item) use ($filter) {
-        return strcasecmp($item['meta']['test suite'], $filter) === 0;
+        return strcasecmp($item['meta']['test_suite'], $filter) === 0;
+      }));
+    });
+  }
+
+  // --group is a case-insensitive match filter.
+  if (($filter = $cli->getParam('group'))) {
+    $manual_test->addFilter(function ($files) use ($filter) {
+      return array_map(function ($item) {
+        return $item['path'];
+      }, array_filter($files, function ($item) use ($filter) {
+        return strcasecmp($item['meta']['group'], $filter) === 0;
       }));
     });
   }
