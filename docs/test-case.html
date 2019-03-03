@@ -41,14 +41,26 @@
 
 <h2>File Structure</h2>
 
+<pre><code>└── auto_retina
+    ├── admin.md
+    ├── image_quality.md
+    ├── images
+    │   ├── js-1.jpg
+    │   └── js-2.jpg
+    └── js.md
+</code></pre>
+
 <ul>
+<li>Test files should be named to match their id, e.g. <em>admin.md, image_quality.md, js.md</em>.</li>
+<li>Test Scenarios should be created one to a file.</li>
+<li>The directory that contains test scenarios will be used to define it's group. Group directory names should be lower-case, underscore named, e.g., <em>auto_retina</em>.  (You may also provide a group name in the frontmatter to override the directory name).</li>
 <li>Each group directory should contain an <em>images</em> directory.</li>
-<li>Test files should be named to match their id, e.g. <em>er_amp_dl.md</em>.</li>
+<li>Image names should match the test scenario following by an incremental number, e.g. <em>js-1.jpg, js-2.jpg</em>.</li>
 </ul>
 
 <h2>Parts of a Test File</h2>
 
-<p>Test files are markdown files with Yaml frontmatter.  Certain level two headers have specific and defined meanings, with special rendering; these are described below.  The design is meant to make writing tests super fast and easy using familiar patterns.</p>
+<p>Test files are markdown files with yaml frontmatter.  Certain level two headers have specific and defined meanings, with special rendering; these are described below.  The design is meant to make writing tests super fast and easy using familiar patterns.</p>
 
 <h3>Frontmatter</h3>
 
@@ -66,6 +78,22 @@ Created: February 27, 2019
 ---
 </code></pre></li>
 </ul>
+
+<h4>Test Suite</h4>
+
+<p>This is optional.</p>
+
+<h4>Author</h4>
+
+<p>You should enter the name of the author of this test.</p>
+
+<h4>Created</h4>
+
+<p>This must be a parseable date, e.g., <code>February 27, 2019</code></p>
+
+<h4>Group</h4>
+
+<p>The group is determined automatically based on the name of the directory containing the test case file.  You may override this by using <code>Group: {group}</code> in your frontmatter.  You can even said the group to an empty string to suppress the group, e.g. <code>Group: ''</code>.</p>
 
 <h3>Test Scenario</h3>
 
@@ -141,7 +169,7 @@ Created: February 27, 2019
 <footer>
   <div class="pager"><a href="pdf-config.html" class="prev pdf-config">&laquo;Pdf Config</a><a href="index.html" class="index pager__book-title">Manual Test</a><a href="index.html" class="next index">Index&raquo;</a></div>  
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Sat, 02 Mar 2019 18:34:39 -0800</p>
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Sat, 02 Mar 2019 19:44:59 -0800</p>
   </div>
 </footer>
 
