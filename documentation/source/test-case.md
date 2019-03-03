@@ -37,21 +37,19 @@ Test files are markdown files with yaml frontmatter.  Certain level two headers 
 
 ### Frontmatter
 
+Here is an example frontmatter with the required fields.  Optional fields are explained below.
+
+    ---
+    Test Case ID: admin
+    Author: Aaron Klump
+    Created: February 27, 2019
+    ---
+
 #### Test Case Id
 
 * Should be lower-cased, and hyphenated.
 * Short and unique across tests.
 * The first component should reflect the group, e.g. first initial(s).
-
-        Test Case ID: admin
-        Test Suite: AutoRetina
-        Author: Aaron Klump
-        Created: February 27, 2019
-        ---
-
-#### Test Suite
-
-This is optional.
 
 #### Author
 
@@ -61,10 +59,18 @@ You should enter the name of the author of this test.
 
 This must be a parseable date, e.g., `February 27, 2019`
 
+#### Test Suite
+
+This will be detected from the configuration XML.  You may also override an auto-detection using this front matter:
+
+    Test Suite: All
+    
 #### Group
 
-The group is determined automatically based on the name of the directory containing the test case file.  You may override this by using `Group: {group}` in your frontmatter.  You can even said the group to an empty string to suppress the group, e.g. `Group: ''`.
+The group is determined automatically based on the name of the directory containing the test case file.  You may override this using frontmatter.
       
+    Group: Auto Retina
+          
 ### Test Scenario
         
         ## Test Scenario

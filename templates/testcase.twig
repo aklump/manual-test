@@ -8,7 +8,9 @@
     <section class="testcase">
       <div class="testcase__suite-group">
         {% if testcase.test_suite %}
-          <span class="testcase_suite">Test Suite: {{ testcase.test_suite }}</span>{% endif %}
+          {% set label = testcase.test_suite|length > 1 ? 'Test Suites' : 'Test Suite' %}
+          <span class="testcase_suite">{{ label }}: {{ testcase
+        .test_suite|join(', ') }}</span>{% endif %}
         {% if testcase.group %}
           <span class="testcase_group">Group: {{ testcase.group }}</span>{% endif %}
       </div>

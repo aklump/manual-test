@@ -32,17 +32,26 @@ try {
   }
 
   $config_dir = realpath(dirname($path_to_config));
+  $filter_by_testsuite = $cli->getParam('testsuite');
+  $testsuite_index = 0;
   foreach ($config->manualtests->children() as $name => $node) {
     switch ($name) {
       case 'testsuite':
-        foreach ($node as $suite) {
+        foreach ($node as $index => $suite) {
           $suite_name = strval($node->attributes()->name);
+          if (!$suite_name) {
+            throw new \RuntimeException("testsuite[$testsuite_index] configuration must have a `name` attribute.");
+          }
           $path = strval($suite);
           if (substr($suite, 0, 1) !== '/') {
             $path = $config_dir . '/' . $path;
           }
-          $path && $conf['testsuites'][$suite_name][] = $path;
+          if ($path && (empty($filter_by_testsuite) || $filter_by_testsuite === $suite_name)) {
+            $path = realpath($path);
+            $conf['testsuites'][$suite_name][] = realpath($path);
+          }
         }
+        $testsuite_index++;
         break;
 
       default:
@@ -74,17 +83,6 @@ try {
         return $item['path'];
       }, array_filter($files, function ($item) use ($filter) {
         return strpos(strtolower($item['meta']['id']), strtolower($filter)) !== FALSE;
-      }));
-    });
-  }
-
-  // --testsuite is a case-insensitive match filter.
-  if (($filter = $cli->getParam('testsuite'))) {
-    $manual_test->addFilter(function ($files) use ($filter) {
-      return array_map(function ($item) {
-        return $item['path'];
-      }, array_filter($files, function ($item) use ($filter) {
-        return strcasecmp($item['meta']['test_suite'], $filter) === 0;
       }));
     });
   }

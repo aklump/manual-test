@@ -222,6 +222,21 @@ class ManualTest extends MarkdownToPdf {
       $metadata['group'] = ucwords(preg_replace('/[-_]/', ' ', basename(dirname($source_path))));
     }
 
+    // Determine the testsuite.
+    if (!array_key_exists('test_suite', $metadata)) {
+      $metadata['test_suite'] = [];
+
+      // Detect by config XML.
+      foreach ($this->testsuites as $testsuite => $files) {
+        if (in_array($source_path, $files)) {
+          $metadata['test_suite'][] = $testsuite;
+        }
+      }
+    }
+    if (!is_array($metadata['test_suite'])) {
+      $metadata['test_suite'] = [$metadata['test_suite']];
+    }
+
     return $metadata;
   }
 
