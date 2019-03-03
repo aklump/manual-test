@@ -47,8 +47,7 @@ try {
             $path = $config_dir . '/' . $path;
           }
           if ($path && (empty($filter_by_testsuite) || $filter_by_testsuite === $suite_name)) {
-            $path = realpath($path);
-            $conf['testsuites'][$suite_name][] = realpath($path);
+            $conf['testsuites'][$suite_name][] = $path;
           }
         }
         $testsuite_index++;

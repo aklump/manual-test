@@ -228,6 +228,7 @@ class ManualTest extends MarkdownToPdf {
 
       // Detect by config XML.
       foreach ($this->testsuites as $testsuite => $files) {
+        $files = array_map('realpath', $files);
         if (in_array($source_path, $files)) {
           $metadata['test_suite'][] = $testsuite;
         }
