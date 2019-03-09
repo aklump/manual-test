@@ -278,7 +278,12 @@ class ManualTest extends MarkdownToPdf {
           $test_data = $d;
         }
         $section = $this->getTwigForTokenReplacement()
-          ->render('test-data.twig', ['data' => $test_data]);
+          ->render('test-data.twig', [
+            'data' => $test_data,
+            'public_data' => array_filter($test_data, function ($item) {
+              return substr($item, 0, 1) !== '_';
+            }, ARRAY_FILTER_USE_KEY),
+          ]);
       }
       elseif (preg_match('/^Test Execution/i', $section)) {
 
@@ -352,7 +357,7 @@ class ManualTest extends MarkdownToPdf {
     // which may be present in the test data keys.
     if (strstr($html, '{{') !== FALSE) {
       foreach ($test_data as $key => $value) {
-        $html = str_replace("{{ $key }}", "<code>$value</code>", $html);
+        $html = str_replace("{{ $key }}", "<span class=\"token-value\">$value</span>", $html);
       }
     }
 

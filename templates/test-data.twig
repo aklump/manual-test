@@ -1,18 +1,14 @@
-<h2>Test Data</h2>
-{% if data %}
+{% if public_data %}
+  <h2>Test Data</h2>
   <table class="pure-table pure-table-bordered">
     <tbody>
-    {% for name, value in data %}
-      {% if name|first != "_" %}
-        <tr>
-          <td>{{ name|replace({"_":" "}) }}</td>
-          <td><code>{{ value }}</code></td>
-        </tr>
-      {% endif %}
+    {% for name, value in public_data %}
+      <tr>
+        <td>{{ name|replace({"_":" "}) }}</td>
+        <td><span class="token-value">{{ value }}</span></td>
+      </tr>
     {% endfor %}
     </tbody>
   </table>
-{% else %}
-  <p>Anything you want.</p>
 {% endif %}
 

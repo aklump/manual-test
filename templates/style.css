@@ -11,11 +11,11 @@ img {
 }
 
 .fail {
-    color: red;
+    color: #ff3f34;
 }
 
 .pass {
-    color: green;
+    color: #05c46b;
 }
 
 td {
@@ -73,5 +73,11 @@ ul, ol {
 
 code {
     padding: 3px;
-    background: rgba(255, 255, 0, .3);
+}
+.token-value {
+    padding: 3px;
+    color: #0e7ea6;
+}
+a {
+    color: inherit;
 }
