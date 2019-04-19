@@ -16,6 +16,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac blandit ris
 1. Create at least one folder, with a manual test.
 1. Relative paths are relative to the config file.
 1. `export TEST_BASE_URL=http://mysite.com; ./vendor/bin/generate --configuration=config.xml`
+1. You can also do like this: `export SIMPLETEST_BASE_URL=http://mysite.com; ./vendor/bin/generate --configuration=coanfig.xml`
 
 ## Requirements
 
