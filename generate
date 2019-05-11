@@ -110,7 +110,13 @@ try {
   }
   else {
     if (!$manual_test->saveCompiledPdfTo($save_to, TRUE)) {
-      throw new \RuntimeException("Could not save: \"$save_to\", the file may already exist.");
+      if (!is_writable(dirname($save_to))) {
+        throw new \RuntimeException("Could not save: \"$save_to\", the directory is not writeable.");
+      }
+      elseif (file_exists($save_to)) {
+        throw new \RuntimeException("Could not save: \"$save_to\", the file already exists.");
+      }
+      throw new \RuntimeException("Could not save: \"$save_to\"; reason unclear.");
     }
   }
 }
