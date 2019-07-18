@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b1c141ffbfc4e77c2370638977dfe6a",
+    "content-hash": "5ccf891d62bbd090adb4dc5893b26c7b",
     "packages": [
         {
             "name": "aklump/data",
@@ -93,16 +93,16 @@
         },
         {
             "name": "aklump/loft-lib",
-            "version": "1.0.22",
+            "version": "1.0.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aklump/loft-lib.git",
-                "reference": "a7ef88e5827c27ac3957e1488921827648bb1adb"
+                "reference": "e3d8e56fca6492af6ffa54eb97bcb02074eaee6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aklump/loft-lib/zipball/a7ef88e5827c27ac3957e1488921827648bb1adb",
-                "reference": "a7ef88e5827c27ac3957e1488921827648bb1adb",
+                "url": "https://api.github.com/repos/aklump/loft-lib/zipball/e3d8e56fca6492af6ffa54eb97bcb02074eaee6f",
+                "reference": "e3d8e56fca6492af6ffa54eb97bcb02074eaee6f",
                 "shasum": ""
             },
             "require": {
@@ -131,7 +131,7 @@
                 }
             ],
             "description": "Core utilities provided by In the Loft Studios",
-            "time": "2019-06-07T19:24:44+00:00"
+            "time": "2019-06-19T18:02:23+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -676,7 +676,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v3.4.28",
+            "version": "v3.4.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -729,16 +729,16 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v3.4.28",
+            "version": "v3.4.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "d40023c057393fb25f7ca80af2a56ed948c45a09"
+                "reference": "adb96e63af6fb0cc721cc69861001d60d0133d0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/d40023c057393fb25f7ca80af2a56ed948c45a09",
-                "reference": "d40023c057393fb25f7ca80af2a56ed948c45a09",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/adb96e63af6fb0cc721cc69861001d60d0133d0c",
+                "reference": "adb96e63af6fb0cc721cc69861001d60d0133d0c",
                 "shasum": ""
             },
             "require": {
@@ -782,7 +782,7 @@
             ],
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
-            "time": "2019-02-23T15:06:07+00:00"
+            "time": "2019-05-30T15:47:52+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -903,7 +903,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.28",
+            "version": "v3.4.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
@@ -962,16 +962,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.11.2",
+            "version": "v2.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "84a463403da1c81afbcedda8f0e788c78bd25a79"
+                "reference": "699ed2342557c88789a15402de5eb834dedd6792"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/84a463403da1c81afbcedda8f0e788c78bd25a79",
-                "reference": "84a463403da1c81afbcedda8f0e788c78bd25a79",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/699ed2342557c88789a15402de5eb834dedd6792",
+                "reference": "699ed2342557c88789a15402de5eb834dedd6792",
                 "shasum": ""
             },
             "require": {
@@ -1025,7 +1025,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-06-05T11:17:07+00:00"
+            "time": "2019-06-18T15:37:11+00:00"
         }
     ],
     "packages-dev": [],
