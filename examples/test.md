@@ -2,6 +2,7 @@
 Test Case ID: alpha
 Author: Aaron Klump
 Created: December 18, 2018
+Duration: 4 min
 ---
 ## Test Scenario
 

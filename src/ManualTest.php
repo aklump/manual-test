@@ -23,6 +23,13 @@ class ManualTest extends MarkdownToPdf {
   protected static $inputIndex = 0;
 
   /**
+   * The type of assertion, one of: pass, fail, passfail.
+   *
+   * @var string
+   */
+  protected $assertType = 'fail';
+
+  /**
    * The name of the person responsible for running the tests.
    *
    * @var string
@@ -96,6 +103,23 @@ class ManualTest extends MarkdownToPdf {
       }
       $this->markdownGlobDirs = array_merge($this->markdownGlobDirs, $paths);
     }
+  }
+
+  /**
+   * Set the assert type.
+   *
+   * @param string $type
+   *
+   * @return $this
+   */
+  public function setAssertType($type) {
+    $valid = ['pass', 'fail', 'passfail'];
+    if (!in_array($type, $valid)) {
+      throw new \InvalidArgumentException(sprintf("\$type must be one of %s", implode(',', $valid)));
+    }
+    $this->assertType = $type;
+
+    return $this;
   }
 
   /**
@@ -334,8 +358,14 @@ class ManualTest extends MarkdownToPdf {
           $results = '<ul class="test-results"><li>' . implode("</li><li>", $results) . "</li></ul>";
           $results = preg_replace_callback('/<li>(.+?<\/li>)/', function ($matches) use (&$input_index) {
             $name = ++self::$inputIndex;
-
-            return "<li>{% include('fail.twig') with {name:$name} %} " . $matches[1];
+            switch ($this->assertType) {
+              case 'pass':
+                return "<li>{% include('pass.twig') with {name:$name} %} " . $matches[1];
+              case 'passfail':
+                return "<li>{% include('pass-fail.twig') with {name:$name} %} " . $matches[1];
+              case 'fail':
+                return "<li>{% include('fail.twig') with {name:$name} %} " . $matches[1];
+            }
           }, $results);
 
           $tds = [];

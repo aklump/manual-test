@@ -77,6 +77,10 @@ try {
     $conf['testsuites']
   );
 
+  if (isset($config->manualtests->assert)) {
+    $manual_test->setAssertType($config->manualtests->assert);
+  }
+
   // --filter is a case-insensitive contains filter.
   if (($filter = $cli->getParam('filter'))) {
     $manual_test->addFilter(function ($files) use ($filter) {
