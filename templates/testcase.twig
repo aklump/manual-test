@@ -15,6 +15,10 @@
           <span class="testcase_group">Group: {{ testcase.group }}</span>{% endif %}
       </div>
       <h1>Test Case: {{ testcase.id }} {% include('pass-fail.twig') with {name: testcase.id ~ '-pass'} %}</h1>
+      {% if testcase.duration %}
+        <p class="testcase__duration">Time to Complete: {{ testcase.duration
+      }}</p>{%
+        endif %}
       {{ testcase.html|raw }}
       {% include('tester-comments.twig') %}
     </section>

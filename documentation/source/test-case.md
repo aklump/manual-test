@@ -43,6 +43,7 @@ Here is an example frontmatter with the required fields.  Optional fields are ex
     Test Case ID: admin
     Author: Aaron Klump
     Created: February 27, 2019
+    Duration: 8 minutes
     ---
 
 #### Test Case Id
@@ -58,6 +59,10 @@ You should enter the name of the author of this test.
 #### Created
 
 This must be a parseable date, e.g., `February 27, 2019`
+
+#### Duration
+
+The estimated time to complete this test.  It should be something like `8 min` or `8 minutes`.  This is optional.
 
 #### Test Suite
 
