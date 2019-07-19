@@ -13,7 +13,12 @@
 <section class="sub-header">
   <div class="breadcrumbs"><a href="index.html">Index</a>
          &raquo
-      </div>  </section>
+      </div>      <div class="search__wrapper">
+  <form action="search--results.html">
+    <input type="text" class="search-input" name="q" id="tipue_search_input" autocomplete="off" required>
+  </form>
+</div>
+  </section>
 
 
 <h1>Configuration</h1>
@@ -21,6 +26,26 @@
 <section>
 
 <p>This project is designed to piggyback off of <em>PHPUnit</em> and it's <em>phpunit.xml</em> file.  Therefore the configuration is an XML file.  If you will not use with PHPUnit you can use the format as shown in <em>examples/config.xml</em>.</p>
+
+<pre><code>&lt;manualtests&gt;
+    &lt;title&gt;Global Oneness Project Website&lt;/title&gt;
+    &lt;tester&gt;Aaron Klump&lt;/tester&gt;
+    &lt;output&gt;gop-manual-tests.pdf&lt;/output&gt;
+    &lt;assert&gt;passfail&lt;/assert&gt;
+    &lt;testsuite name="Contrib"&gt;
+        &lt;directory&gt;../web/sites/all/modules/contrib/*/tests/src/Manual*&lt;/directory&gt;
+        &lt;directory&gt;../web/sites/all/modules/contrib/*/tests/src/Manual/*&lt;/directory&gt;
+    &lt;/testsuite&gt;
+    &lt;testsuite name="Custom"&gt;
+        &lt;directory&gt;../web/sites/all/modules/custom/*/tests/src/Manual&lt;/directory&gt;
+        &lt;directory&gt;../web/sites/all/modules/custom/*/tests/src/Manual/*&lt;/directory&gt;
+    &lt;/testsuite&gt;
+&lt;/manualtests&gt;
+</code></pre>
+
+<h2><code>assert</code></h2>
+
+<p>This is one of: <code>pass</code>, <code>fail</code>, or <code>passfail</code> indicating the type of checkboxes to include for assertions.</p>
 </section>
 
 <div class="search__results">
@@ -30,11 +55,19 @@
 <footer>
   <div class="pager"><a href="cli.html" class="prev cli">&laquo;Command Line</a><a href="index.html" class="index pager__book-title">Manual Test</a><a href="README.html" class="next readme">Manual Test&raquo;</a></div>  
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Thu, 18 Jul 2019 11:51:29 -0700</p>
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Thu, 18 Jul 2019 18:51:18 -0700</p>
   </div>
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="search/tipuesearch_content.js"></script>
+  <script src="search/tipuesearch_set.js"></script>
+  <script src="search/tipuesearch.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#tipue_search_input').tipuesearch()
+    })
+  </script>
 <script src="js/core.js"></script>
 </body>
 </html>
