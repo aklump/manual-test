@@ -13,7 +13,12 @@
 <section class="sub-header">
   <div class="breadcrumbs"><a href="index.html">Index</a>
          &raquo
-      </div>  </section>
+      </div>      <div class="search__wrapper">
+  <form action="search--results.html">
+    <input type="text" class="search-input" name="q" id="tipue_search_input" autocomplete="off" required>
+  </form>
+</div>
+  </section>
 
 
 <h1>Test Case Files</h1>
@@ -70,6 +75,7 @@
 Test Case ID: admin
 Author: Aaron Klump
 Created: February 27, 2019
+Duration: 8 minutes
 ---
 </code></pre>
 
@@ -88,6 +94,10 @@ Created: February 27, 2019
 <h4>Created</h4>
 
 <p>This must be a parseable date, e.g., <code>February 27, 2019</code></p>
+
+<h4>Duration</h4>
+
+<p>The estimated time to complete this test.  It should be something like <code>8 min</code> or <code>8 minutes</code>.  This is optional.</p>
 
 <h4>Test Suite</h4>
 
@@ -177,11 +187,19 @@ Created: February 27, 2019
 <footer>
   <div class="pager"><a href="pdf-config.html" class="prev pdf-config">&laquo;Pdf Config</a><a href="index.html" class="index pager__book-title">Manual Test</a><a href="index.html" class="next index">Index&raquo;</a></div>  
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Thu, 18 Jul 2019 11:51:29 -0700</p>
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Thu, 18 Jul 2019 18:51:19 -0700</p>
   </div>
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="search/tipuesearch_content.js"></script>
+  <script src="search/tipuesearch_set.js"></script>
+  <script src="search/tipuesearch.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#tipue_search_input').tipuesearch()
+    })
+  </script>
 <script src="js/core.js"></script>
 </body>
 </html>

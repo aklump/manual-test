@@ -11,7 +11,12 @@
 <header>
   <div class="pager"><a href="test-case.html" class="prev test-case">&laquo;Test Case Files</a><span class="pager__book-title">Manual Test</span><a href="CHANGELOG.html" class="next changelog">Changelog&raquo;</a></div></header>
 <section class="sub-header">
-    </section>
+        <div class="search__wrapper">
+  <form action="search--results.html">
+    <input type="text" class="search-input" name="q" id="tipue_search_input" autocomplete="off" required>
+  </form>
+</div>
+  </section>
 
 
 <h1></h1>
@@ -42,11 +47,19 @@
 <footer>
   <div class="pager"><a href="test-case.html" class="prev test-case">&laquo;Test Case Files</a><span class="pager__book-title">Manual Test</span><a href="CHANGELOG.html" class="next changelog">Changelog&raquo;</a></div>  
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Thu, 18 Jul 2019 11:51:30 -0700</p>
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Thu, 18 Jul 2019 18:51:20 -0700</p>
   </div>
 </footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="search/tipuesearch_content.js"></script>
+  <script src="search/tipuesearch_set.js"></script>
+  <script src="search/tipuesearch.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#tipue_search_input').tipuesearch()
+    })
+  </script>
 <script src="js/core.js"></script>
 </body>
 </html>
