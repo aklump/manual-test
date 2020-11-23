@@ -6,7 +6,7 @@ Duration: 4 min
 ---
 ## Test Scenario
 
-Searching from the homepage returns relevent results.
+Searching from the homepage returns relevant results.
 
 ## Pre-Conditions
 

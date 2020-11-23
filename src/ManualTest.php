@@ -243,7 +243,7 @@ class ManualTest extends MarkdownToPdf {
 
     // Auto-discover the group based on parent directory.
     if (!array_key_exists('group', $metadata)) {
-      $metadata['group'] = ucwords(preg_replace('/[-_]/', ' ', basename(dirname($source_path))));
+      $metadata['group'] = basename(dirname($source_path));
     }
 
     // Determine the testsuite.
