@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Roadmap</title>
+  <link href="search/tipuesearch.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body class="page--roadmap">
+<header>
+  <div class="pager"><a href="pdf-config.html" class="prev pdf-config">&laquo;Pdf Config</a><a href="index.html" class="index pager__book-title">Manual Test</a><a href="test-case.html" class="next test-case">Test Case Files&raquo;</a></div></header>
+<section class="sub-header">
+  <div class="breadcrumbs"><a href="index.html">Index</a>
+         &raquo
+      </div>      <div class="search__wrapper">
+  <form action="search--results.html">
+    <input type="text" class="search-input" name="q" id="tipue_search_input" autocomplete="off" required>
+  </form>
+</div>
+  </section>
+
+
+<h1>Roadmap</h1>
+
+<section>
+
+<ul>
+<li>Replace wkthtmltopdf with this? https://github.com/Kozea/WeasyPrint</li>
+</ul>
+
+<h2>Bugs</h2>
+
+<ul>
+<li><p>wkhtmltopdf is escaping the <code>#</code> to <code>%23</code> in when it creates the PDF from something like this:</p>
+
+<pre><code>Open this url: &lt;a href="http://globalonenessproject.local.loft/about-project#sm=login"&gt;/about-project#sm=login&lt;/a&gt;
+</code></pre></li>
+<li><p>it works fine in the html version, but not the pdf version</p></li>
+</ul>
+</section>
+
+<div class="search__results">
+  <div id="tipue_search_content"></div>
+</div>
+
+<footer>
+  <div class="pager"><a href="pdf-config.html" class="prev pdf-config">&laquo;Pdf Config</a><a href="index.html" class="index pager__book-title">Manual Test</a><a href="test-case.html" class="next test-case">Test Case Files&raquo;</a></div>  
+  <div id="footer-legaleeze">
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Mon, 23 Nov 2020 15:37:05 -0800</p>
+  </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="search/tipuesearch_content.js"></script>
+  <script src="search/tipuesearch_set.js"></script>
+  <script src="search/tipuesearch.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#tipue_search_input').tipuesearch()
+    })
+  </script>
+<script src="js/core.js"></script>
+</body>
+</html>
+
