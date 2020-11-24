@@ -28,6 +28,14 @@ try {
   }
 
   $path_to_config = $cli->getParam('configuration', ROOT . '/examples/config.xml');
+  $resolve_path = function ($path) use ($path_to_config) {
+    if (substr($path, 0, 1) !== '/') {
+      $path = realpath(dirname($path_to_config) . '/' . $path);
+    }
+
+    return (string) $path;
+  };
+
   $config = simplexml_load_file($path_to_config);
   if (!isset($config->manualtests)) {
     throw new \RuntimeException("Bad syntax in configuration file; missing key \"manualtests\".  In " . realpath($path_to_config));
@@ -38,6 +46,12 @@ try {
   $testsuite_index = 0;
   foreach ($config->manualtests->children() as $name => $node) {
     switch ($name) {
+
+      // These are paths.
+      case 'output':
+        $conf[$name] = $resolve_path($node);
+        break;
+
       case 'testsuite':
         foreach ($node as $index => $suite) {
           $suite_name = strval($node->attributes()->name);
