@@ -29,41 +29,28 @@
 
 <h2>Summary</h2>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac blandit risus. Mauris tempor a lacus a placerat. Vivamus viverra dapibus metus non finibus. Nulla ultricies est nulla, eget efficitur nibh viverra non. Sed sed est viverra nunc malesuada venenatis vitae at tellus. Suspendisse potenti. Morbi non blandit elit, sit amet consectetur mi.</p>
+<p>Manual test is a way to create QA testing for human running.  It's for those situations where automated testing is forthcoming, would not be feasible.  It's meant to be a very quick and simple way to have QA.</p>
 
 <p><strong>Visit <a href="https://aklump.github.io/manual_test">https://aklump.github.io/manual_test</a> for full documentation.</strong></p>
 
 <h2>Quick Start</h2>
 
+<p>This one-liner will create a folder called tests_manual and install this library there using composer.</p>
+
+<pre><code class="bash">mkdir tests_manual &amp;&amp; cd tests_manual &amp;&amp; composer require aklump/manual-test &amp;&amp; cp ./vendor/aklump/manual-test/examples/config.xml .
+</code></pre>
+
 <ol>
-<li><code>composer require aklump/manual-test</code></li>
-<li><code>cp ./vendor/aklump/manual-test/examples/config.xml ./config.xml</code></li>
-<li>Modify <em>config.xml</em> as necessary</li>
+<li>Modify <em>tests_manual/config.xml</em> as necessary</li>
 <li>Create at least one folder, with a manual test.</li>
 <li>Relative paths are relative to the config file.</li>
 <li><code>export TEST_BASE_URL=http://mysite.com; ./vendor/bin/generate --configuration=config.xml</code></li>
 <li>You can also do like this: <code>export SIMPLETEST_BASE_URL=http://mysite.com; ./vendor/bin/generate --configuration=coanfig.xml</code></li>
 </ol>
 
-<h2>Requirements</h2>
-
-<ul>
-<li>alpha</li>
-<li>bravo</li>
-</ul>
-
 <h2>Contributing</h2>
 
 <p>If you find this project useful... please consider <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=4E5KZHDQCEUV8&amp;item_name=Gratitude%20for%20aklump%2Fmanual_test">making a donation</a>.</p>
-
-<h2>Installation</h2>
-
-<ol>
-<li>lorem</li>
-<li>ipsum</li>
-</ol>
-
-<h2>Usage</h2>
 </section>
 
 <div class="search__results">
@@ -73,7 +60,7 @@
 <footer>
   <div class="pager"><a href="configuration.html" class="prev configuration">&laquo;Configuration</a><a href="index.html" class="index pager__book-title">Manual Test</a><a href="pdf-config.html" class="next pdf-config">Pdf Config&raquo;</a></div>  
   <div id="footer-legaleeze">
-    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Mon, 23 Nov 2020 15:37:05 -0800</p>
+    <p class="legaleeze center">Version: 1.0 &bull; Last Updated: Mon, 23 Nov 2020 16:53:47 -0800</p>
   </div>
 </footer>
 
