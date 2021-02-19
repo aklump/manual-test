@@ -13,7 +13,7 @@ Manual test is a way to create QA testing for human running.  It's for those sit
 This one-liner will create a folder called tests_manual and install this library there using composer.
 
 ```bash
-mkdir tests_manual && cd tests_manual && composer require aklump/manual-test && cp ./vendor/aklump/manual-test/examples/config.xml .
+mkdir tests_manual && cd tests_manual && composer require --dev aklump/manual-test && cp ./vendor/aklump/manual-test/examples/config.xml .
 ```
 
 1. Modify _tests_manual/config.xml_ as necessary
